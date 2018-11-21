@@ -1,12 +1,34 @@
 $(document).ready(function(){
-    $("#start-btn").click(function(){
+        var startBtn= $("#start-btn");
+        var nextBtn = $("<button>Next</button>").attr('id','next-btn');
+        var prevBtn = $("<button>Previous</button>").attr('id','previous-btn');
+        var saveBtn =  $("<button>Save</button>").attr('id','save-btn');
+    
+    var startBtnClick = function(e){
         $("#content").text("temp_question"); 
         $("#content").append("<div>answer A</div>");
-        $("#body").append("<button>Previous</button>");
-        $("#body").append("<button>Save</button>");
-        $("#body").append("<button>Next</button>");
-        $("#start-btn").remove();
-    });
+        prevBtn.appendTo('body');
+        saveBtn.appendTo('body');
+        nextBtn.appendTo('body');
+        startBtn.remove();
+
+    }
+
+    var nextBtnClick = function(e){
+        alert("Next btn clicked");
+    }
+
+    var prevBtnClick = function(e){
+        alert("Prev btn clicked");
+    }
+    var saveBtnClick = function(e){
+        alert("Save btn clicked");
+    }
+
+    startBtn.on('click', startBtnClick);
+    prevBtn.on('click', prevBtnClick);
+    nextBtn.on('click', nextBtnClick);
+    saveBtn.on('click', saveBtnClick);
 });
 
 
@@ -102,14 +124,8 @@ const QUESTION_TYPE = {
 }
 
 const TOPICS = {
-    YOUR_COMPANY: "Your Company",
+    YOUR_COMPANY: "Your Company"
 
 
 }
 
-function test() {
-    // body...
-    console.log("abcs");
-}
-
-test();
