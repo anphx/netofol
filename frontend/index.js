@@ -857,10 +857,10 @@ $(document).ready(function() {
         nextBtn.appendTo('body');
     }
 
-    var nextBtnClick = function(e) {
-        alert("Next btn clicked");
-        next(inp);
-    }
+    // var nextBtnClick = function(e) {
+    //     alert("Next btn clicked");
+    //     next(inp);
+    // }
 
     var prevBtnClick = function(e) {
         alert("Prev btn clicked");
@@ -875,7 +875,7 @@ $(document).ready(function() {
     nextBtn.on('click', nextBtnClick);
     saveBtn.on('click', saveBtnClick);
 
-    function next() {
+    function nextBtnClick() {
         // get current answer
         // TODO: get answer by question type
 
@@ -889,7 +889,7 @@ $(document).ready(function() {
         history[appState.currQst] = [answer];
 
         // choose next question
-        var nextQstInd = whatsNext(appState.history[history.length - 1]);
+        var nextQstInd = whatsNext(appState.currQst, answer);
 
         // update current and last question
         appState.prevQst = appState.currQst;
@@ -900,53 +900,45 @@ $(document).ready(function() {
 
     function doRenderQuestion(ind) {
         var question = QUESTION_MAP[ind];
-        $("#content").html(question.q);
+        var choices = question.a;
+        $("#content").html("Question " + ind + " - "+ question.q);
 
-        switch (ind) {
-            case 1:
+        switch (question.qType) {
+            case QUESTION_TYPE.NO_CHOICE:
                 break;
-            default:
-
-
+            case QUESTION_TYPE.SINGLE_CHOICE:
+                for (i = 0; i < choices.length; i++) {
+                    radioBtn = $('<input type="radio" name="qst-' + ind + '" value="' + choices[i] + '" >' + choices[i] + '</input>').attr('id', ind + "-" + i);
+                    $("#content").append("<br>");
+                    radioBtn.appendTo('#content');
+                }
+                break;
         }
 
     }
 
-    function whatsNext(item) {
-        var current = item.q_id;
-        var answer = item.answer[0];
+    function whatsNext(current, answer) {
         if (current == "4" && answer == "Yes") {
-            document.getElementById("demo").innerHTML = "5";
             return 5;
         } else if (current == "4" && answer == "No") {
-            document.getElementById("demo").innerHTML = "12";
             return 12;
         } else if (current == "12" && answer == "Server") {
-            document.getElementById("demo").innerHTML = "13";
             return 13;
         } else if (current == "12" && answer == "Workstation") {
-            document.getElementById("demo").innerHTML = "50";
             return 50;
         } else if (current == "13" && answer == "Dedicated") {
-            document.getElementById("demo").innerHTML = "14";
             return 14;
         } else if (current == "13" && answer == "Non-special") {
-            document.getElementById("demo").innerHTML = "31";
             return 31;
         } else if (current == "39" && answer == "Yes") {
-            document.getElementById("demo").innerHTML = "40";
             return 40;
         } else if (current == "39" && answer == "No/DK") {
-            document.getElementById("demo").innerHTML = "42";
             return 42;
         } else if (current == "62" && answer == "Yes") {
-            document.getElementById("demo").innerHTML = "63";
             return 63;
         } else if (current == "62" && answer == "No") {
-            document.getElementById("demo").innerHTML = "70";
             return 70;
         } else {
-            document.getElementById("demo").innerHTML = current += 1;
             return current += 1;
         }
 
