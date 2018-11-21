@@ -800,11 +800,11 @@ const QUESTION_MAP = {
 };
 
 $(document).ready(function() {
-    var startBtn = $("#start-btn");
+    var gotoSurveyBtn = $("#goto-survey-btn");
     var nextBtn = $("<button>Next</button>").attr('id', 'next-btn');
     var prevBtn = $("<button>Previous</button>").attr('id', 'previous-btn');
     var saveBtn = $("<button>Save</button>").attr('id', 'save-btn');
-    var chooseDeptBtn = $("<button>Go to survey</button>").attr('id', 'choosedept-btn');
+    var startBtn = $("<button>Start</button>").attr('id', 'start-btn');
     var radioBtn;
     var question = QUESTION_MAP[1].q;
     
@@ -827,20 +827,20 @@ $(document).ready(function() {
     // };
 
 
-    var startBtnClick = function(e) {
+    var gotoSurveyBtnClick = function(e) {
         $("#content").html("Choose your department");
-         startBtn.remove();
+         gotoSurveyBtn.remove();
          for (i = 0; i < DEPARTMENTS.length; i++) {
          radioBtn = $('<br><input type="radio" class="department" name="rbtnCount" value="'+i+'" >' + DEPARTMENTS[i] + '</input><br>').attr('id', 'dept'+i);
          radioBtn.appendTo('#content');
      }
-         chooseDeptBtn.appendTo('body');
+         startBtn.appendTo('body');
 
     }
 
-    var chooseDepartment= function(e) {
+    var startSurvey= function(e) {
       $("input").remove(".department");
-        chooseDeptBtn.remove();
+        startBtn.remove();
        $("#content").html(question);
         $("#content").append("<ul>answer A</ul>");
         prevBtn.appendTo('body');
@@ -860,8 +860,8 @@ $(document).ready(function() {
         alert("Save btn clicked");
     }
 
-    startBtn.on('click', startBtnClick);
-    chooseDeptBtn.on('click', chooseDepartment);
+    gotoSurveyBtn.on('click', gotoSurveyBtnClick);
+    startBtn.on('click', startSurvey);
     prevBtn.on('click', prevBtnClick);
     nextBtn.on('click', nextBtnClick);
     saveBtn.on('click', saveBtnClick);
