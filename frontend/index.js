@@ -831,7 +831,8 @@ $(document).ready(function() {
         $("#content").html("Choose your department");
          gotoSurveyBtn.remove();
          for (i = 0; i < DEPARTMENTS.length; i++) {
-         radioBtn = $('<br><input type="radio" class="department" name="rbtnCount" value="'+i+'" >' + DEPARTMENTS[i] + '</input><br>').attr('id', 'dept'+i);
+         radioBtn = $('<input type="radio" name="rbtnCount" value="'+DEPARTMENTS[i]+'" >' + DEPARTMENTS[i] + '</input>').attr('id', 'dept'+i);
+         $("#content").append("<br>");
          radioBtn.appendTo('#content');
      }
          startBtn.appendTo('body');
@@ -839,6 +840,13 @@ $(document).ready(function() {
     }
 
     var startSurvey= function(e) {
+        
+        var $radios = $('input[name="rbtnCount"]');
+        var $checked = $radios.filter(function() {
+            return $(this).prop('checked');
+             });
+       
+
       $("input").remove(".department");
         startBtn.remove();
        $("#content").html(question);
