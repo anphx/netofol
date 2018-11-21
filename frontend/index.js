@@ -87,22 +87,38 @@ const QUESTION_MAP = [{
     {
         ind: 6,
         q: "Do you apply the rules and best practices for digital accessibility?",
-        a: [],
+        a: ["Yes", "No", "I don't know"],
         topic: TOPICS.YOUR_COMPANY,
         qType: QUESTION_TYPE.SINGLE_CHOICE
     },
-
-
-// 5. 
-
-// Ecoconception good practices
-// 6. Do you apply the rules and best practices for digital accessibility?
-// 7. Have you optimized the states and printouts in your application tools (reduced number of pages when printing, ink consumption ...)
-// 8. Do you integrate the principles of the ecodesign of digital services?
-// 9. Do you use a modular application architecture?
-// 10. Do you do a design review at the end of your application's development?
-
-
+    {
+        ind: 7,
+        q: "Have you optimized the states and printouts in your application tools (reduced number of pages when printing, ink consumption ...)",
+        a: ["Yes", "No", "I don't know"],
+        topic: TOPICS.YOUR_COMPANY,
+        qType: QUESTION_TYPE.SINGLE_CHOICE
+    },
+     {
+        ind: 8,
+        q: "Do you integrate the principles of the ecodesign of digital services?",
+        a: ["Yes", "No", "I don't know"],
+        topic: TOPICS.YOUR_COMPANY,
+        qType: QUESTION_TYPE.SINGLE_CHOICE
+    },
+    {
+        ind: 9,
+        q: "Do you use a modular application architecture?",
+        a: ["Yes", "No", "I don't know"],
+        topic: TOPICS.YOUR_COMPANY,
+        qType: QUESTION_TYPE.SINGLE_CHOICE
+    },
+    {
+        ind: 10,
+        q: "Do you do a design review at the end of your application's development?",
+        a: ["Yes", "No", "I don't know"],
+        topic: TOPICS.YOUR_COMPANY,
+        qType: QUESTION_TYPE.SINGLE_CHOICE
+    },
 
     /*
     {
