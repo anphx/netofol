@@ -22,6 +22,10 @@ const TOPICS = {
     PRINTING_SUB: "Consumables"
 }
 
+const DEPARTMENTS = ["IT Services", "Management", "Facility Management"];
+
+
+
 // TODO: Mixed choice: 11, 15, 42, 77
 const QUESTION_MAP = [
     // Topic: Your Company
@@ -800,16 +804,33 @@ $(document).ready(function() {
     var nextBtn = $("<button>Next</button>").attr('id', 'next-btn');
     var prevBtn = $("<button>Previous</button>").attr('id', 'previous-btn');
     var saveBtn = $("<button>Save</button>").attr('id', 'save-btn');
+    var continueBtn = $("<button>Continue previous survey</button>").attr('id', 'continue-btn');
+    var chooseDeptBtn = $("<button>Go to survey</button>").attr('id', 'continue-btn');
+    var radioBtn;
     var question = QUESTION_MAP[1].q;
+    
 
     var startBtnClick = function(e) {
-        $("#content").html(question);
+        $("#content").html("Choose your department");
+         startBtn.remove();
+         for (i = 0; i < DEPARTMENTS.length; i++) {
+         radioBtn = $('<input type="radio" class="department" name="rbtnCount" value="'+i+'" >' + DEPARTMENTS[i] + '</input>').attr('id', 'dept'+i);
+         radioBtn.appendTo('body');
+     }
+         chooseDeptBtn.appendTo('body');
+         continueBtn.appendTo('body');
+    }
+
+    var chooseDepartment= function(e) {
+      $("input").remove(".department");
+        chooseDeptBtn.remove();
+        continueBtn.remove();
+       $("#content").html(question);
         $("#content").append("<ul>answer A</ul>");
         prevBtn.appendTo('body');
         saveBtn.appendTo('body');
         nextBtn.appendTo('body');
-        startBtn.remove();
-
+        
     }
 
     var nextBtnClick = function(e) {
@@ -824,6 +845,7 @@ $(document).ready(function() {
     }
 
     startBtn.on('click', startBtnClick);
+    chooseDeptBtn.on('click', chooseDepartment);
     prevBtn.on('click', prevBtnClick);
     nextBtn.on('click', nextBtnClick);
     saveBtn.on('click', saveBtnClick);
