@@ -41,6 +41,20 @@ const QUESTION_MAP = [{
         q: "What is the number of users of your digital services?",
         a: [],
         topic: TOPICS.YOUR_COMPANY,
+        qType: QUESTION_TYPE.TEXT
+    },
+    {
+        ind: 5,
+        q: "Ecoconception good practices",
+        a: ["Yes", "No", "I don't know"],
+        topic: TOPICS.YOUR_COMPANY,
+        qType: QUESTION_TYPE.CONTROL_QUESTION
+    },
+    {
+        ind: 6,
+        q: "Do you apply the rules and best practices for digital accessibility?",
+        a: [],
+        topic: TOPICS.YOUR_COMPANY,
         qType: QUESTION_TYPE.SINGLE_CHOICE
     },
 
@@ -66,12 +80,13 @@ const QUESTION_MAP = [{
     },
     */
 
-    3. 
 ];
 
 const QUESTION_TYPE = {
     SINGLE_CHOICE: 0,
     MULTI_CHOICE: 1,
+    CONTROL_QUESTION: 2,
+    TEXT: 3
 }
 
 const TOPICS = {
