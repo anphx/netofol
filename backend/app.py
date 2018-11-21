@@ -1,9 +1,15 @@
 from flask import Flask, request
 from flask import make_response, render_template
+from flask_pymongo import PyMongo
 
 import json, uuid
 
 app = Flask(__name__)
+
+app.config["MONGO_URI"] = "mongodb://localhost:27017/d4g"
+mongo = PyMongo(app)
+
+
 
 
 @app.route("/")
@@ -34,10 +40,11 @@ def save():
 
 def load_history(session):
     # load history from db
-    return session
+    res = mongo.d4g.findOne({"session_id":session});
+    return res
 
 def save_to_db(session_id, history):
-
+    mongo.d4g.insert({"session_id":session_id,"history":history})
     return "success"
 
 if __name__ == "__main__":
