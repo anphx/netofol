@@ -96,14 +96,14 @@ const QUESTION_MAP = {
         qType: QUESTION_TYPE.SINGLE_CHOICE
     },
     9: {
-       // ind: 9,
+        // ind: 9,
         q: "Do you use a modular application architecture?",
         a: ["Yes", "No", "I don't know"],
         topic: TOPICS.YOUR_COMPANY,
         qType: QUESTION_TYPE.SINGLE_CHOICE
     },
     10: {
-      //  ind: 10,
+        //  ind: 10,
         q: "Do you do a design review at the end of your application's development?",
         a: ["Yes", "No", "I don't know"],
         topic: TOPICS.YOUR_COMPANY,
@@ -111,7 +111,7 @@ const QUESTION_MAP = {
     },
     // Topic INFRASTRUCTURES --> Information Technology
     11: {
-      //  ind: 11,
+        //  ind: 11,
         q: "What is the overall storage volume of your corporate data (centralized on external hard drives, centralized server, NAS, SAN ...) in Terabytes (TB) useful?",
         a: ["I don't know", "I do not want to answer", "x TB"], // >> response field to be added,
         topic: TOPICS.INFRASTRUCTURES,
@@ -119,7 +119,7 @@ const QUESTION_MAP = {
         qType: QUESTION_TYPE.MIXED
     },
     12: {
-     //   ind: 12,
+        //   ind: 12,
         q: "Do you have a server or do you only work with one or more workstations?",
         a: ["We work with workstation (s), without centralized physical server", "We have (at least) a centralized physical server"],
         topic: TOPICS.INFRASTRUCTURES,
@@ -127,7 +127,7 @@ const QUESTION_MAP = {
         qType: QUESTION_TYPE.SINGLE_CHOICE
     },
     13: {
-     //   ind: 13,
+        //   ind: 13,
         q: "Do you have a dedicated room, simple room or cupboard with bay dedicated to your IT infrastructure?",
         a: ["A closet or a room without any specific system", "A dedicated room"],
         topic: TOPICS.INFRASTRUCTURES,
@@ -136,7 +136,7 @@ const QUESTION_MAP = {
     },
     // Topic INFRASTRUCTURES --> Server/Computer Room
     14: {
-      //  ind: 14,
+        //  ind: 14,
         q: "Is your computer room in house or at a host?",
         a: ["Internal", "Host Member of the European Code of Conduct for Datacenters", "Non-adhering Host of the European Code of Conduct for Data Centers"],
         topic: TOPICS.INFRASTRUCTURES,
@@ -144,7 +144,7 @@ const QUESTION_MAP = {
         qType: QUESTION_TYPE.SINGLE_CHOICE
     },
     15: {
-       // ind: 15,
+        // ind: 15,
         q: "What is the total area of your computer rooms (excluding technical infrastructure *)? (in m2)",
         a: [
             "X m2", //>> response field to be added
@@ -807,49 +807,50 @@ $(document).ready(function() {
     var startBtn = $("<button>Start</button>").attr('id', 'start-btn');
     var radioBtn;
     var question = QUESTION_MAP[1].q;
-    
+
 
     // TODO: for testing purpose
     var appState = {
-        current: 1,
-        history: []
+        currQst: {},
+        prevQst: {},
+        history: [], // TODO: load when an existing survey is load
+        stepTracking: {} //{curr: prev}
     };
 
     // example
     // var appState = {
     //     current: 1,
-    //     history: [
-    //         {
-    //             qId: 1,
-    //             answer: ["answer1", "as2"]
-    //         }
-    //     ]
+    //     history: {
+    //         1: ["answer1", "as2"]
+    //     }
     // };
+
 
 
     var gotoSurveyBtnClick = function(e) {
         $("#content").html("Choose your department");
-         gotoSurveyBtn.remove();
-         for (i = 0; i < DEPARTMENTS.length; i++) {
-         radioBtn = $('<input type="radio" name="rbtnCount" value="'+DEPARTMENTS[i]+'" >' + DEPARTMENTS[i] + '</input>').attr('id', 'dept'+i);
-         $("#content").append("<br>");
-         radioBtn.appendTo('#content');
-     }
-         startBtn.appendTo('body');
+        gotoSurveyBtn.remove();
+        for (i = 0; i < DEPARTMENTS.length; i++) {
+            radioBtn = $('<input type="radio" name="rbtnCount" value="' + DEPARTMENTS[i] + '" >' + DEPARTMENTS[i] + '</input>').attr('id', 'dept' + i);
+            $("#content").append("<br>");
+            radioBtn.appendTo('#content');
+        }
+        startBtn.appendTo('body');
 
     }
 
-    var startSurvey= function(e) {
-        
+    var startSurvey = function(e) {
+
         var $radios = $('input[name="rbtnCount"]');
         var $checked = $radios.filter(function() {
             return $(this).prop('checked');
-             });
-       
+        });
+        appState.currQst = 1;
 
-      $("input").remove(".department");
+
+        $("input").remove(".department");
         startBtn.remove();
-       $("#content").html(question);
+        $("#content").html(question);
         $("#content").append("<ul>answer A</ul>");
         prevBtn.appendTo('body');
         saveBtn.appendTo('body');
@@ -875,11 +876,39 @@ $(document).ready(function() {
     saveBtn.on('click', saveBtnClick);
 
     function next() {
-        // next question
-        var nextQuestion = whatsNext(appState.history[history.length - 1]);
+        // get current answer
+        // TODO: get answer by question type
 
-        // do render for the question
-        var question = QUESTION_MAP[nextQuestion];
+        var answer = "";
+        if ($("#answer").is(':radio')) {
+            answer = $("#answer:checked").val();
+        } else if ($("#answer").is('input:text')) {
+            answer = $("#answer").text();
+        }
+        // store in history array
+        history[appState.currQst] = [answer];
+
+        // choose next question
+        var nextQstInd = whatsNext(appState.history[history.length - 1]);
+
+        // update current and last question
+        appState.prevQst = appState.currQst;
+        appState.currQst = nextQstInd;
+
+        doRenderQuestion(nextQstInd);
+    }
+
+    function doRenderQuestion(ind) {
+        var question = QUESTION_MAP[ind];
+        $("#content").html(question.q);
+
+        switch (ind) {
+            case 1:
+                break;
+            default:
+
+
+        }
 
     }
 
