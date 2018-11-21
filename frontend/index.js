@@ -1,36 +1,13 @@
-$(document).ready(function(){
-        var startBtn= $("#start-btn");
-        var nextBtn = $("<button>Next</button>").attr('id','next-btn');
-        var prevBtn = $("<button>Previous</button>").attr('id','previous-btn');
-        var saveBtn =  $("<button>Save</button>").attr('id','save-btn');
-    
-    var startBtnClick = function(e){
-        $("#content").text("temp_question"); 
-        $("#content").append("<div>answer A</div>");
-        prevBtn.appendTo('body');
-        saveBtn.appendTo('body');
-        nextBtn.appendTo('body');
-        startBtn.remove();
+const QUESTION_TYPE = {
+    SINGLE_CHOICE: 0,
+    MULTI_CHOICE: 1,
+    CONTROL_QUESTION: 2,
+    TEXT: 3
+}
 
-    }
-
-    var nextBtnClick = function(e){
-        alert("Next btn clicked");
-    }
-
-    var prevBtnClick = function(e){
-        alert("Prev btn clicked");
-    }
-    var saveBtnClick = function(e){
-        alert("Save btn clicked");
-    }
-
-    startBtn.on('click', startBtnClick);
-    prevBtn.on('click', prevBtnClick);
-    nextBtn.on('click', nextBtnClick);
-    saveBtn.on('click', saveBtnClick);
-});
-
+const TOPICS = {
+    YOUR_COMPANY: "Your Company"
+}
 
 const QUESTION_MAP = [{
         ind: 1,
@@ -116,16 +93,39 @@ const QUESTION_MAP = [{
 
 ];
 
-const QUESTION_TYPE = {
-    SINGLE_CHOICE: 0,
-    MULTI_CHOICE: 1,
-    CONTROL_QUESTION: 2,
-    TEXT: 3
-}
+$(document).ready(function(){
+        var startBtn= $("#start-btn");
+        var nextBtn = $("<button>Next</button>").attr('id','next-btn');
+        var prevBtn = $("<button>Previous</button>").attr('id','previous-btn');
+        var saveBtn =  $("<button>Save</button>").attr('id','save-btn');
+        var question = QUESTION_MAP[1].q;
+    
+    var startBtnClick = function(e){
+        $("#content").html(question); 
+        $("#content").append("<ul>answer A</ul>");
+        prevBtn.appendTo('body');
+        saveBtn.appendTo('body');
+        nextBtn.appendTo('body');
+        startBtn.remove();
 
-const TOPICS = {
-    YOUR_COMPANY: "Your Company"
+    }
+
+    var nextBtnClick = function(e){
+        alert("Next btn clicked");
+    }
+
+    var prevBtnClick = function(e){
+        alert("Prev btn clicked");
+    }
+    var saveBtnClick = function(e){
+        alert("Save btn clicked");
+    }
+
+    startBtn.on('click', startBtnClick);
+    prevBtn.on('click', prevBtnClick);
+    nextBtn.on('click', nextBtnClick);
+    saveBtn.on('click', saveBtnClick);
+});
 
 
-}
 
