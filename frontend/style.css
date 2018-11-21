@@ -1,0 +1,11 @@
+body {
+	background: #EFF0EF;
+	color: #303030;
+	text-align: center;
+	margin-top: 10%;
+}
+button {
+	width: 12em;
+	height: 3em;
+	margin: 10px;
+}

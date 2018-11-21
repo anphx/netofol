@@ -1,3 +1,15 @@
+$(document).ready(function(){
+    $("#start-btn").click(function(){
+        $("#content").text("temp_question"); 
+        $("#content").append("<div>answer A</div>");
+        $("#body").append("<button>Previous</button>");
+        $("#body").append("<button>Save</button>");
+        $("#body").append("<button>Next</button>");
+        $("#start-btn").remove();
+    });
+});
+
+
 const QUESTION_MAP = [{
         ind: 1,
         q: "In which sector of activity is your company active? (linked with your APE code)",
