@@ -821,8 +821,8 @@ $(document).ready(function() {
         $("#content").html("Choose your department");
         gotoSurveyBtn.remove();
         for (i = 0; i < DEPARTMENTS.length; i++) {
-            radioBtn = $('<input type="radio" name="rbtnCount" value="' + DEPARTMENTS[i] + '" >' + DEPARTMENTS[i] + '</input>').attr('id', 'dept' + i);
-            $("#content").append("<br>");
+            radioBtn = $('<label class="label--radio"><input type="radio" name="rbtnCount" class="radio" value="' + DEPARTMENTS[i] + '" >' + DEPARTMENTS[i] + '</input></label>').attr('id', 'dept' + i);
+            //$("#content").append("<br>");
             radioBtn.appendTo('#content');
         }
         startBtn.appendTo('body');
@@ -897,8 +897,8 @@ $(document).ready(function() {
                 break;
             case QUESTION_TYPE.SINGLE_CHOICE:
                 for (i = 0; i < choices.length; i++) {
-                    radioBtn = $('<input type="radio" name="choice" value="' + choices[i] + '" >' + choices[i] + '</input>').attr('id', ind + "-" + i);
-                    $("#content").append("<br>");
+                    radioBtn = $('<label class="label--radio"><input type="radio" name="choice" class="radio" value="' + choices[i] + '" >' + choices[i] + '</input></label>').attr('id', ind + "-" + i);
+                    //$("#content").append("<br>");
                     radioBtn.appendTo('#content');
                     radioBtn.on('change', function(e) {
                         updateHistory(e.target.value);
