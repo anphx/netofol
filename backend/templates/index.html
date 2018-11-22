@@ -234,8 +234,11 @@ input[type=text] {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" >
     	// ========= To define global variables =====================
+      {% if history %}
     	var globalHistory = {{history|safe}};
     	var globalSession = {{session}};
+      {% else %}
+      {% endif %}
 const API_BASE = "http://51.75.249.213:5000";
 
 const QUESTION_TYPE = {
