@@ -2,6 +2,8 @@
 <html>
 
 <head>
+  <link rel="icon" href="data:,">
+
     <style type="text/css">
     button {
         width: 12em;
@@ -118,6 +120,7 @@
     #goto-survey-btn,
     #start-btn,
     #save-btn {
+
         margin-top: 60px;
         color: #EFF0EF;
         background: #FE6F00;
@@ -1070,7 +1073,7 @@
         var gotoSurveyBtn = $("#goto-survey-btn");
         var nextBtn = $("<button>></button>").attr('id', 'next-btn').prop("disabled", true);
         var prevBtn = $("<button><</button>").attr('id', 'previous-btn').prop("disabled", true);
-        var saveBtn = $("<button>Save</button>").attr('id', 'save-btn').prop("disabled", true);
+        var saveBtn = $("<button>Save</button>").attr('id', 'save-btn').prop("disabled", false);
         var startBtn = $("<button>Start</button>").attr('id', 'start-btn');
         var radioBtn;
         var textInput;
@@ -1121,18 +1124,23 @@
         }
 
         function saveBtnClick(e) {
+          console.log("save btn clicked");
             $.ajax({
                     method: "POST",
                     contentType: "application/json",
                     url: API_BASE + "/save",
                     data: JSON.stringify({
-                        session_id: appState.session_id,
+                        session_id: appState.sessionId,
                         history: appState.history
                     })
                 })
                 .done(function(msg) {
-                    appState.sessionId = msg.session_id;
-                    alert("new url:", API_BASE + "/index.html/" + session_id);
+                    appState.sessionId = msg["session_id"];
+                    newUrl=API_BASE + "/s/" + appState.sessionId;
+                    var myNode = document.getElementById("body");
+                    myNode.innerHTML = '<h1 class="final-msg">We have got your response! </h1><h2 class="final-msg">You can change your response using this link:</h2> <h3 class="final-msg"><a href="'+newUrl+'">'+newUrl+'</a></h3> <h3 class="final-msg">Give this link to other people in your company!</h3>';
+                    
+                    //alert("new url:" + newUrl );
                     // notiAfterSave("");
                 });
         }
