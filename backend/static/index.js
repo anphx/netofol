@@ -1,4 +1,5 @@
 // ========= To define global variables =====================
+const API_BASE = "http://51.75.249.213:5000";
 
 const QUESTION_TYPE = {
     SINGLE_CHOICE: 0,
@@ -849,15 +850,25 @@ $(document).ready(function() {
         nextBtn.appendTo('body');
     }
 
-    var saveBtnClick = function(e) {
-        alert("Save btn clicked");
-    }
-
     gotoSurveyBtn.on('click', gotoSurveyBtnClick);
     startBtn.on('click', startSurvey);
     prevBtn.on('click', prevBtnClick);
     nextBtn.on('click', nextBtnClick);
     saveBtn.on('click', saveBtnClick);
+
+    function saveBtnClick(e) {
+        $.ajax({
+            method: "POST",
+            url: API_BASE + "/save",
+            data: { 
+                session_id: "",
+                history: appState.history
+            }
+        })
+        .done(function(msg) {
+            alert("Data Saved: " + msg);
+        });
+    }
 
     function nextBtnClick(e) {
         var answer = "";
@@ -954,7 +965,7 @@ $(document).ready(function() {
 
                 // Load data from history
                 if (appState.history[ind]) $('input[name=choice][value="' + appState.history[ind][0] + '"]').prop("checked", true);
-                   
+
                 break;
         }
 
