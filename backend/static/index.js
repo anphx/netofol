@@ -31,7 +31,7 @@ var appState = {
     currQst: 0,
     history: {}, // TODO: load when an existing survey is load
     stepTracking: [],
-    session_id: "0"
+    sessionId: "0"
 };
 
 const QUESTION_MAP = {
@@ -809,18 +809,19 @@ const QUESTION_MAP = {
 $(document).ready(function() {
     var gotoSurveyBtn = $("#goto-survey-btn");
     var nextBtn = $("<button>></button>").attr('id', 'next-btn').prop("disabled", true);
-    var prevBtn = $("<button><</button>").attr('id', 'previous-btn');
-    var saveBtn = $("<button>Save</button>").attr('id', 'save-btn');
+    var prevBtn = $("<button><</button>").attr('id', 'previous-btn').prop("disabled", true);
+    var saveBtn = $("<button>Save</button>").attr('id', 'save-btn').prop("disabled", true);
     var startBtn = $("<button>Start</button>").attr('id', 'start-btn');
     var radioBtn;
     var textInput;
 
-    // Mixed answer Question: [ "11", "15", "42", "43", "70", "72", "77" ]
-    // var mixedQsts = jQuery.grep(Object.keys(QUESTION_MAP), function(key, i) {
-    //     return (QUESTION_MAP[key].qType == QUESTION_TYPE.MIXED);
-    // });
+    gotoSurveyBtn.on('click', gotoSurveyBtnClick);
+    startBtn.on('click', startSurvey);
+    prevBtn.on('click', prevBtnClick);
+    nextBtn.on('click', nextBtnClick);
+    saveBtn.on('click', saveBtnClick);
 
-    var gotoSurveyBtnClick = function(e) {
+    function gotoSurveyBtnClick(e) {
         $("#content").html("Choose your department");
         gotoSurveyBtn.remove();
         for (i = 0; i < DEPARTMENTS.length; i++) {
@@ -831,7 +832,7 @@ $(document).ready(function() {
         startBtn.appendTo('body');
     }
 
-    var startSurvey = function(e) {
+    function startSurvey(e) {
         var $radios = $('input[name="rbtnCount"]');
         var $checked = $radios.filter(function() {
             return $(this).prop('checked');
@@ -850,12 +851,6 @@ $(document).ready(function() {
         nextBtn.appendTo('body');
     }
 
-    gotoSurveyBtn.on('click', gotoSurveyBtnClick);
-    startBtn.on('click', startSurvey);
-    prevBtn.on('click', prevBtnClick);
-    nextBtn.on('click', nextBtnClick);
-    saveBtn.on('click', saveBtnClick);
-
     function saveBtnClick(e) {
         $.ajax({
                 method: "POST",
@@ -867,7 +862,9 @@ $(document).ready(function() {
                 })
             })
             .done(function(msg) {
-                alert("Data Saved: " + msg);
+                appState.sessionId = msg.session_id;
+                alert("new url:", API_BASE + "/index.html/" + session_id);
+                // notiAfterSave("");
             });
     }
 
@@ -920,12 +917,17 @@ $(document).ready(function() {
                     radioBtn.on('change', function(e) {
                         if (mixedQuestionMap[ind].includes(parseInt(e.target.id)) && e.target.checked) {
                             $('<input type="text" name="subAns" id="subAns" />').insertAfter($(e.target).parent());
+                            $("#subAns").on('change', function(e) {
+                                updateHistory(e.target.value);
+                            });
                         } else {
                             $("#subAns").remove();
                         }
                         updateHistory(e.target.value);
                         nextBtn.prop("disabled", false);
                     });
+
+
                 }
 
                 if (appState.history[ind]) {
@@ -1000,9 +1002,9 @@ $(document).ready(function() {
                 appState.history[appState.currQst] = value;
                 break;
             case QUESTION_TYPE.MIXED:
-                appState.history[appState.currQst] = [value];
+                var selectedVal = $('input[type="radio"]:checked').val();
                 var textVal = $("#subAns").val();
-                appState.history[appState.currQst].push(textVal);
+                appState.history[appState.currQst] = [selectedVal, textVal];
                 break;
             default:
                 appState.history[appState.currQst] = [value];
