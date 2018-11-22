@@ -1,3 +1,5 @@
+// ========= To define global variables =====================
+
 const QUESTION_TYPE = {
     SINGLE_CHOICE: 0,
     MULTI_CHOICE: 1,
@@ -24,7 +26,11 @@ const TOPICS = {
 
 const DEPARTMENTS = ["IT Services", "Management", "Facility Management"];
 
-
+var appState = {
+    currQst: 0,
+    history: {}, // TODO: load when an existing survey is load
+    stepTracking: []
+};
 
 // TODO: Mixed choice: 11, 15, 42, 77
 const QUESTION_MAP = {
@@ -801,30 +807,12 @@ const QUESTION_MAP = {
 
 $(document).ready(function() {
     var gotoSurveyBtn = $("#goto-survey-btn");
-    var nextBtn = $("<button>Next</button>").attr('id', 'next-btn');
+    var nextBtn = $("<button>Next</button>").attr('id', 'next-btn').prop("disabled", true);
     var prevBtn = $("<button>Previous</button>").attr('id', 'previous-btn');
     var saveBtn = $("<button>Save</button>").attr('id', 'save-btn');
     var startBtn = $("<button>Start</button>").attr('id', 'start-btn');
     var radioBtn;
     var question = QUESTION_MAP[1].q;
-
-
-    // TODO: for testing purpose
-    var appState = {
-        currQst: {},
-        prevQst: {},
-        history: [], // TODO: load when an existing survey is load
-        stepTracking: {} //{curr: prev}
-    };
-
-    // example
-    // var appState = {
-    //     current: 1,
-    //     history: {
-    //         1: ["answer1", "as2"]
-    //     }
-    // };
-
 
 
     var gotoSurveyBtnClick = function(e) {
@@ -840,30 +828,24 @@ $(document).ready(function() {
     }
 
     var startSurvey = function(e) {
-
         var $radios = $('input[name="rbtnCount"]');
         var $checked = $radios.filter(function() {
             return $(this).prop('checked');
         });
-        appState.currQst = 1;
 
         $("input").remove(".department");
         startBtn.remove();
-        //$("#content").html(question);
-        $("#content").append("<ul>answer A</ul>");
+
+        // TODO: get the starting point here based on department
+        var startAt = 1;
+        appState.stepTracking.push(startAt);
+        doRenderQuestion(startAt);
+
         prevBtn.appendTo('body');
         saveBtn.appendTo('body');
         nextBtn.appendTo('body');
     }
 
-    // var nextBtnClick = function(e) {
-    //     alert("Next btn clicked");
-    //     next(inp);
-    // }
-
-    var prevBtnClick = function(e) {
-        alert("Prev btn clicked");
-    }
     var saveBtnClick = function(e) {
         alert("Save btn clicked");
     }
@@ -874,46 +856,77 @@ $(document).ready(function() {
     nextBtn.on('click', nextBtnClick);
     saveBtn.on('click', saveBtnClick);
 
-    function nextBtnClick() {
+    function nextBtnClick(e) {
         // get current answer
         // TODO: get answer by question type
 
         var answer = "";
-        if ($("#answer").is(':radio')) {
-            answer = $("#answer:checked").val();
-        } else if ($("#answer").is('input:text')) {
-            answer = $("#answer").text();
+        if ($("input[name=choice]").is(':radio')) {
+            answer = $("input[name=choice]:checked").val();
+        } else if ($("input[name=choice]").is('input:text')) {
+            answer = $("input[name=choice]").text();
         }
         // store in history array
-        history[appState.currQst] = [answer];
+        updateHistory(answer);
 
-        // choose next question
+        // move to next question
         var nextQstInd = whatsNext(appState.currQst, answer);
-
-        // update current and last question
-        appState.prevQst = appState.currQst;
-        appState.currQst = nextQstInd;
-
+        appState.stepTracking.push(nextQstInd);
         doRenderQuestion(nextQstInd);
+        prevBtn.prop("disabled", false);
+    }
+
+    function prevBtnClick(e) {
+        appState.stepTracking.pop();
+        var prevQst = appState.stepTracking[appState.stepTracking.length - 1];
+        if (prevQst) doRenderQuestion(prevQst);
+        // No more coming back
+        if (appState.stepTracking.length == 1) prevBtn.prop("disabled", true);
     }
 
     function doRenderQuestion(ind) {
+        appState.currQst = ind;
         var question = QUESTION_MAP[ind];
         var choices = question.a;
-        $("#content").html("Question " + ind + " - "+ question.q);
+        $("#content").html("Question " + ind + " - " + question.q);
 
         switch (question.qType) {
             case QUESTION_TYPE.NO_CHOICE:
                 break;
             case QUESTION_TYPE.SINGLE_CHOICE:
                 for (i = 0; i < choices.length; i++) {
-                    radioBtn = $('<input type="radio" name="qst-' + ind + '" value="' + choices[i] + '" >' + choices[i] + '</input>').attr('id', ind + "-" + i);
+                    radioBtn = $('<input type="radio" name="choice" value="' + choices[i] + '" >' + choices[i] + '</input>').attr('id', ind + "-" + i);
                     $("#content").append("<br>");
                     radioBtn.appendTo('#content');
+                    radioBtn.on('change', function(e) {
+                        updateHistory(e.target.value);
+                        nextBtn.prop("disabled", false);
+                    });
+                }
+                // Reload answer if saved
+
+                if (appState.history[ind]) {
+                    $('input[name=choice][value="' + appState.history[ind][0] + '"]').prop("checked", true);
                 }
                 break;
         }
+    }
 
+    function updateHistory(value) {
+        appState.history[appState.currQst] = appState.history[appState.currQst] || [];
+        switch (QUESTION_MAP[appState.currQst].qType) {
+            case QUESTION_TYPE.MULTI_CHOICE:
+                appState.history[appState.currQst].push(value);
+                break;
+            case QUESTION_TYPE.MIXED:
+                appState.history[appState.currQst] = [value];
+                var textVal = $("#subAns").text();
+                appState.history[appState.currQst].push(textVal);
+                break;
+            default:
+                appState.history[appState.currQst] = [value];
+                break;
+        }
     }
 
     function whatsNext(current, answer) {
