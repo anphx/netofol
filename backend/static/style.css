@@ -9,3 +9,40 @@ button {
 	height: 3em;
 	margin: 10px;
 }
+
+html{
+	background: blue;
+}
+
+body{
+	margin: 0 auto;
+    position: relative;
+    height: 60em;
+    width: 50em;
+    top: 200px;
+    padding: 5em;
+}
+
+#content{
+	margin: 0 auto;
+    top: 0%;
+    left: 50%;
+}
+
+#next-btn{
+	position: absolute;
+    right: -60px;
+    top: 200px;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+}
+
+#previous-btn{
+	position: absolute;
+    left: -60px;
+    top: 200px;
+    border-radius: 100%;
+    width: 100px;
+    height: 100px;
+}

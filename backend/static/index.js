@@ -807,8 +807,10 @@ const QUESTION_MAP = {
 
 $(document).ready(function() {
     var gotoSurveyBtn = $("#goto-survey-btn");
-    var nextBtn = $("<button>Next</button>").attr('id', 'next-btn').prop("disabled", true);
-    var prevBtn = $("<button>Previous</button>").attr('id', 'previous-btn');
+
+    var nextBtn = $("<button>></button>").attr('id', 'next-btn').prop("disabled", true);
+    var prevBtn = $("<button><</button>").attr('id', 'previous-btn');
+
     var saveBtn = $("<button>Save</button>").attr('id', 'save-btn');
     var startBtn = $("<button>Start</button>").attr('id', 'start-btn');
     var radioBtn;
