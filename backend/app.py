@@ -4,6 +4,7 @@ from flask import make_response, render_template
 from flask_pymongo import PyMongo
 from flask_compress import Compress
 from flask_cors import CORS
+import sys
 
 import json, uuid
 
@@ -35,7 +36,7 @@ def save():
     history = request.json['history']
 
     if session_id == '0' or session_id == '':
-        session_id = str(uuid.uuid4())
+        session_id = str(uuid.uuid4())[:8]
 
     data = {}
     data['session_id'] = session_id
@@ -51,7 +52,20 @@ def load_history(session):
     return res
 
 def save_to_db(session_id, history):
-    mongo.db.sessions.insert({"session_id":session_id,"history":history})
+    previous_records = load_history(session_id)
+    if(previous_records.count() == 0 ):
+        # print("zeroooooo", file=sys.stdout)
+        mongo.db.sessions.insert({"session_id":session_id,"history":history})
+    else:
+        #we have to merge things here
+        pastHistory=list(previous_records)[0]['history']
+
+        pastHistory.update(history)
+        print(pastHistory, file=sys.stdout)
+
+        #we delete previous values
+        mongo.db.sessions.delete_one({"session_id":session_id})
+        mongo.db.sessions.insert({"session_id":session_id,"history":pastHistory})
     return "success"
 
 if __name__ == "__main__":
