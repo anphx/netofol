@@ -847,10 +847,9 @@ $(document).ready(function() {
         });
         appState.currQst = 1;
 
-
         $("input").remove(".department");
         startBtn.remove();
-        $("#content").html(question);
+        //$("#content").html(question);
         $("#content").append("<ul>answer A</ul>");
         prevBtn.appendTo('body');
         saveBtn.appendTo('body');
