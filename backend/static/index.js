@@ -30,7 +30,8 @@ const DEPARTMENTS = ["IT Services", "Management", "Facility Management"];
 var appState = {
     currQst: 0,
     history: {}, // TODO: load when an existing survey is load
-    stepTracking: []
+    stepTracking: [],
+    session_id: "0"
 };
 
 // TODO: Mixed choice: 11, 15, 42, 77
@@ -862,7 +863,7 @@ $(document).ready(function() {
             contentType: "application/json",
             url: API_BASE + "/save",
             data: JSON.stringify({ 
-                session_id: "",
+                session_id: appState.session_id,
                 history: appState.history
             })
         })

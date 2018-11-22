@@ -29,7 +29,7 @@ def save():
     session_id = request.json['session_id']
     history = request.json['history']
 
-    if session_id == '0':
+    if session_id == '0' || session_id == '':
         session_id = str(uuid.uuid4())[:8]
 
     data = {}
