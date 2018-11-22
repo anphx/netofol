@@ -244,6 +244,12 @@
         box-sizing: border-box;
     }
 
+    .formated-text {
+        width: 100%;
+        display: inline-block;
+        font-family: sans serif;
+    }
+
     </style>
     <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -457,7 +463,9 @@
         },
         19: {
             //ind: 19,
-            q: "The purchase of non-IT equipment from IT rooms (air conditioning, air treatment, inverters, etc.) according to energy efficiency criteria",
+            q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+                "\t The purchase of non-IT equipment from IT rooms (air conditioning, air treatment, inverters, etc.)" +
+                "\t according to energy efficiency criteria",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[1],
@@ -465,7 +473,8 @@
         },
         20: {
             //ind: 20,
-            q: 'Implementing the good practices of the "European Code of Conduct for DataCenter"?',
+            q: 'Have you led or are you planning actions to optimize your infrastructure? Especially:\n' +
+                '\t Implementing the good practices of the "European Code of Conduct for DataCenter"?',
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[1],
@@ -473,7 +482,8 @@
         },
         21: {
             //ind: 21,
-            q: "Data center PUE tracking",
+            q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+                "\t Data center PUE tracking",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[1],
@@ -481,7 +491,8 @@
         },
         22: {
             //ind: 22,
-            q: "Regular monitoring of environmental indicators of computer rooms",
+            q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+                "\t Regular monitoring of environmental indicators of computer rooms",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[1],
@@ -489,7 +500,8 @@
         },
         23: {
             //ind: 23,
-            q: "Environmental impact analysis of the datacenter in life cycle approach",
+            q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+                "\t Environmental impact analysis of the datacenter in life cycle approach",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[1],
@@ -497,7 +509,8 @@
         },
         24: {
             //ind: 24,
-            q: "Optimizing the architecture and layout of rooms",
+            q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+                "\t Optimizing the architecture and layout of rooms",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[1],
@@ -505,7 +518,8 @@
         },
         25: {
             //ind: 25,
-            q: "The urbanization of halls in hot / cold aisles",
+            q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+                "\t The urbanization of halls in hot / cold aisles",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[1],
@@ -513,7 +527,8 @@
         },
         26: {
             //ind: 26,
-            q: "Containment of air flows (corridors)",
+            q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+                "\t Containment of air flows (corridors)",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[1],
@@ -521,7 +536,8 @@
         },
         27: {
             //ind: 27,
-            q: "The use of natural cooling sources (freecooling)",
+            q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+                "\t The use of natural cooling sources (freecooling)",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[1],
@@ -529,7 +545,8 @@
         },
         28: {
             //ind: 28,
-            q: "Implementation of a heat recovery system for computer rooms (heating)",
+            q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+                "\t Implementation of a heat recovery system for computer rooms (heating)",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[1],
@@ -537,7 +554,8 @@
         },
         29: {
             //ind: 29,
-            q: "The set temperature in the cold corridor remains higher than 24 °",
+            q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+                "\t The set temperature in the cold corridor remains higher than 24 °",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[1],
@@ -545,7 +563,8 @@
         },
         30: {
             //ind: 30,
-            q: "The choice of a modular datacenter architecture",
+            q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+                "\t The choice of a modular datacenter architecture",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[1],
@@ -563,7 +582,8 @@
         },
         32: {
             //ind: 32,
-            q: "Suspending network equipment",
+            q: "Have you led or are you planning actions to optimize your infrastructure? Especially: \n" +
+                "\tSuspending network equipment",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[2],
@@ -571,7 +591,8 @@
         },
         33: {
             //ind: 33,
-            q: "Pooling physical equipment",
+            q: "Have you led or are you planning actions to optimize your infrastructure? Especially: \n" +
+                "\tPooling physical equipment",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[2],
@@ -579,7 +600,8 @@
         },
         34: {
             //ind: 34,
-            q: "Uninstalling unnecessary infrastructure",
+            q: "Have you led or are you planning actions to optimize your infrastructure? Especially: \n" +
+                "\tUninstalling unnecessary infrastructure",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[2],
@@ -587,7 +609,8 @@
         },
         35: {
             //ind: 35,
-            q: "Traceability of material elements (CMDB)",
+            q: "Have you led or are you planning actions to optimize your infrastructure? Especially: \n" +
+                "\tTraceability of material elements (CMDB)",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[2],
@@ -595,7 +618,8 @@
         },
         36: {
             //ind: 36,
-            q: "The correct sizing of the servers in relation to their use",
+            q: "Have you led or are you planning actions to optimize your infrastructure? Especially: \n" +
+                "\tThe correct sizing of the servers in relation to their use",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[2],
@@ -603,7 +627,8 @@
         },
         37: {
             //ind: 37,
-            q: "Give priority to ASHRAE 2 compatible equipment",
+            q: "Have you led or are you planning actions to optimize your infrastructure? Especially: \n" +
+                "\tGive priority to ASHRAE 2 compatible equipment",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[2],
@@ -611,7 +636,8 @@
         },
         38: {
             //ind: 38,
-            q: "A procedure for provisioning and de-provisioning data-processing equipment in datacenters",
+            q: "Have you led or are you planning actions to optimize your infrastructure? Especially: \n" +
+                "\tA procedure for provisioning and de-provisioning data-processing equipment in datacenters",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[2],
@@ -729,7 +755,11 @@
         },
         51: {
             //ind: 51,
-            q: "Fixed stations, workstations",
+            q: "Do you have those equipments in your company:\n" +
+               "\t- Used: equipment used in the business activity\n" +
+               "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+               "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+               "\nFixed stations, workstations",
             a: ["Used", "Not used functional", "Neither used nor functional"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[3],
@@ -737,7 +767,11 @@
         },
         52: {
             //ind: 52,
-            q: "Laptops, digital tablets",
+            q: "Do you have those equipments in your company:\n" +
+               "\t- Used: equipment used in the business activity\n" +
+               "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+               "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+               "\nLaptops, digital tablets",
             a: ["Used", "Not used functional", "Neither used nor functional"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[3],
@@ -745,7 +779,11 @@
         },
         53: {
             //ind: 53,
-            q: "Small printers (<15kg, potentially used by a household)",
+            q: "Do you have those equipments in your company:\n" +
+               "\t- Used: equipment used in the business activity\n" +
+               "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+               "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+               "\nSmall printers (<15kg, potentially used by a household)",
             a: ["Used", "Not used functional", "Neither used nor functional"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[3],
@@ -753,7 +791,11 @@
         },
         54: {
             //ind: 54,
-            q: " Flat screen monitors",
+            q: "Do you have those equipments in your company:\n" +
+               "\t- Used: equipment used in the business activity\n" +
+               "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+               "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+               "\nFlat screen monitors",
             a: ["Used", "Not used functional", "Neither used nor functional"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[3],
@@ -761,7 +803,11 @@
         },
         55: {
             //ind: 55,
-            q: "Other flat screens (TV, projection screen, digital board ...)",
+            q: "Do you have those equipments in your company:\n" +
+               "\t- Used: equipment used in the business activity\n" +
+               "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+               "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+               "\nOther flat screens (TV, projection screen, digital board ...)",
             a: ["Used", "Not used functional", "Neither used nor functional"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[3],
@@ -769,7 +815,11 @@
         },
         56: {
             //ind: 56,
-            q: "CRT monitors (monitors or other)",
+            q: "Do you have those equipments in your company:\n" +
+               "\t- Used: equipment used in the business activity\n" +
+               "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+               "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+               "\nCRT monitors (monitors or other)",
             a: ["Used", "Not used functional", "Neither used nor functional"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[3],
@@ -777,7 +827,11 @@
         },
         57: {
             //ind: 57,
-            q: "Video projectors",
+            q: "Do you have those equipments in your company:\n" +
+               "\t- Used: equipment used in the business activity\n" +
+               "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+               "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+               "\nVideo projectors",
             a: ["Used", "Not used functional", "Neither used nor functional"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[3],
@@ -785,7 +839,11 @@
         },
         58: {
             //ind: 58,
-            q: "Mobile phones",
+            q: "Do you have those equipments in your company:\n" +
+               "\t- Used: equipment used in the business activity\n" +
+               "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+               "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+               "\nMobile phones",
             a: ["Used", "Not used functional", "Neither used nor functional"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[3],
@@ -793,7 +851,11 @@
         },
         59: {
             //ind: 59,
-            q: "Fixed telephones (standalone not connected to such a standard)",
+            q: "Do you have those equipments in your company:\n" +
+               "\t- Used: equipment used in the business activity\n" +
+               "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+               "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+               "\nFixed telephones (standalone not connected to such a standard)",
             a: ["Used", "Not used functional", "Neither used nor functional"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[3],
@@ -801,7 +863,11 @@
         },
         60: {
             //ind: 60,
-            q: "Digital cameras",
+            q: "Do you have those equipments in your company:\n" +
+               "\t- Used: equipment used in the business activity\n" +
+               "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+               "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+               "\nDigital cameras",
             a: ["Used", "Not used functional", "Neither used nor functional"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[3],
@@ -809,7 +875,11 @@
         },
         61: {
             //ind: 61,
-            q: "Hard Disk Devices, Storage, Backup",
+            q: "Do you have those equipments in your company:\n" +
+               "\t- Used: equipment used in the business activity\n" +
+               "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+               "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+               "\nHard Disk Devices, Storage, Backup",
             a: ["Used", "Not used functional", "Neither used nor functional"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[3],
@@ -817,8 +887,8 @@
         },
         62: {
             //ind: 62,
-            q: "Do you have other devices in your company?|" +
-                "Keyboards, mouse, graphic tablets, scanners, microphones, speakers, office equipment ...",
+            q: "Do you have other devices in your company?\n" +
+                "\t Keyboards, mouse, graphic tablets, scanners, microphones, speakers, office equipment ...",
             a: ["Yes", "No"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[3],
@@ -826,10 +896,10 @@
         },
         63: {
             //ind: 63,
-            q: "Regarding other devices, do you have in your company:|" +
-                "Used: equipment used in the business activity \n" +
-                "Not used functional: equipment in working order but no more used by the company (stored) \n" +
-                "Neither used nor functional: out of service equipment (HS) waiting for end of life treatment",
+            q: "Regarding other devices, do you have in your company:\n" +
+                "\t- Used: equipment used in the business activity \n"+
+                "\t- Not used functional: equipment in working order but no more used by the company (stored) \n"+
+                "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment",
             a: [],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[3],
@@ -837,7 +907,11 @@
         },
         64: {
             //ind: 64,
-            q: "Keyboards",
+            q: "Regarding other devices, do you have in your company:\n" +
+                "\t- Used: equipment used in the business activity \n"+
+                "\t- Not used functional: equipment in working order but no more used by the company (stored) \n"+
+                "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment" +
+                "\nKeyboards",
             a: ["Used", "Not used functional", "Neither used nor functional"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[3],
@@ -845,7 +919,11 @@
         },
         65: {
             //ind: 65,
-            q: "Mouse",
+            q: "Regarding other devices, do you have in your company:\n" +
+                "\t- Used: equipment used in the business activity \n"+
+                "\t- Not used functional: equipment in working order but no more used by the company (stored) \n"+
+                "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment" +
+                "\nMouse",
             a: ["Used", "Not used functional", "Neither used nor functional"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[3],
@@ -853,7 +931,11 @@
         },
         66: {
             //ind: 66,
-            q: "Graphic tablets",
+            q: "Regarding other devices, do you have in your company:\n" +
+                "\t- Used: equipment used in the business activity \n"+
+                "\t- Not used functional: equipment in working order but no more used by the company (stored) \n"+
+                "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment" +
+                "\nGraphic tablets",
             a: ["Used", "Not used functional", "Neither used nor functional"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[3],
@@ -861,7 +943,11 @@
         },
         67: {
             //ind: 67,
-            q: "Scanners",
+            q: "Regarding other devices, do you have in your company:\n" +
+                "\t- Used: equipment used in the business activity \n"+
+                "\t- Not used functional: equipment in working order but no more used by the company (stored) \n"+
+                "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment" +
+                "\nScanners",
             a: ["Used", "Not used functional", "Neither used nor functional"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[3],
@@ -869,7 +955,11 @@
         },
         68: {
             //ind: 68,
-            q: "Speakers",
+            q: "Regarding other devices, do you have in your company:\n" +
+                "\t- Used: equipment used in the business activity \n"+
+                "\t- Not used functional: equipment in working order but no more used by the company (stored) \n"+
+                "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment" +
+                "\nSpeakers",
             a: ["Used", "Not used functional", "Neither used nor functional"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[3],
@@ -877,7 +967,11 @@
         },
         69: {
             //ind: 69,
-            q: "Office automation",
+            q: "Regarding other devices, do you have in your company:\n" +
+                "\t- Used: equipment used in the business activity \n"+
+                "\t- Not used functional: equipment in working order but no more used by the company (stored) \n"+
+                "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment" +
+                "\nOffice automation",
             a: ["Used", "Not used functional", "Neither used nor functional"],
             topic: TOPICS.INFRASTRUCTURES,
             subTopic: TOPICS.INFRASTRUCTURES_SUB[3],
@@ -962,35 +1056,39 @@
         },
         78: {
             //ind: 78,
-            q: "Are your printers set by default in eco mode? Especially:|Answer following questions",
+            q: "Are your printers set by default in eco mode? Especially:\n",
             a: [],
             topic: TOPICS.PRINTING,
             qType: QUESTION_TYPE.NO_CHOICE
         },
         79: {
             //ind: 79,
-            q: "Energy saving (Automatic standby)",
+            q: "Are your printers set by default in eco mode? Especially:\n" +
+                "\tEnergy saving (Automatic standby)",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.PRINTING,
             qType: QUESTION_TYPE.SINGLE_CHOICE
         },
         80: {
             //ind: 80,
-            q: "Black and white by default",
+            q: "Are your printers set by default in eco mode? Especially:\n" +
+                "\tBlack and white by default",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.PRINTING,
             qType: QUESTION_TYPE.SINGLE_CHOICE
         },
         81: {
             //ind: 81,
-            q: "Default duplex",
+            q: "Are your printers set by default in eco mode? Especially:\n" +
+                "\tDefault duplex",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.PRINTING,
             qType: QUESTION_TYPE.SINGLE_CHOICE
         },
         82: {
             //ind: 82,
-            q: "Default draft mode",
+            q: "Are your printers set by default in eco mode? Especially:\n" +
+                "\tDefault draft mode",
             a: ["Yes", "No", "I don't know"],
             topic: TOPICS.PRINTING,
             qType: QUESTION_TYPE.SINGLE_CHOICE
@@ -1093,23 +1191,24 @@
                 radioBtn = $('<label class="label--radio">\
                 <input type="radio" name="rbtnCount" class="radio" value="' + keys[i] + '" >' + DEPARTMENTS[keys[i]] + '</input></label>').attr('id', 'dept' + i);
                 radioBtn.appendTo('#content');
+                radioBtn.on('change', function(e) {
+                    startBtn.prop("disabled", !$("input:checked").val());
+                });
             }
+
+            startBtn.prop("disabled", true);
             startBtn.appendTo('body');
         }
 
         function startSurvey(e) {
-            // var $radios = $('input[name="rbtnCount"]');
-            // var $checked = $radios.filter(function() {
-            //     return $(this).prop('checked');
-            // });
+            var selected = $("input:checked").val();
+            if (!selected) return;
 
             $("input").remove(".department");
-            // debugger;
-
             startBtn.remove();
-            appState.selectedDepartment = $("input:checked").val();
 
-            // TODO: get the starting point here based on department
+            appState.selectedDepartment = selected;
+
             var startAt = whatsNext(appState.selectedDepartment, appState.currQst, "");
             if (startAt > 0 ) {
                 appState.stepTracking.push(startAt);
@@ -1183,12 +1282,19 @@
             nextBtn.prop("disabled", !appState.history[ind]);
 
             var question = QUESTION_MAP[ind];
+            if (question.qType == QUESTION_TYPE.NO_CHOICE) {
+                doRenderQuestion(ind + 1);
+                return;
+            }
             var choices = question.a;
-            $("#content").html("Question " + ind + " - " + question.q);
+            var qstContent = "Question " + ind + " - " + question.q;
+            if (qstContent.includes("\n")) {
+                $("#content").html($('<pre class="formated-text">' + qstContent + '</pre>'));
+            } else {
+                $("#content").html(qstContent);
+            }
 
             switch (question.qType) {
-                case QUESTION_TYPE.NO_CHOICE:
-                    break;
                 case QUESTION_TYPE.MIXED:
                     var mixedQuestionMap = { 11: [2], 15: [0], 42: [0, 1], 43: [0, 1], 70: [0], 72: [0], 77: [2] };
                     for (i = 0; i < choices.length; i++) {
