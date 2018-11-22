@@ -935,7 +935,7 @@ $(document).ready(function() {
                     $input.prop("checked", true);
 
                     if (mixedQuestionMap[ind].includes(parseInt($input.prop("id")))) {
-                        $('<input type="text" name="subAns" id="subAns" />').insertAfter($input.parent());
+                        $('<input type="text" placeholder="Enter your answer here" name="subAns" id="subAns" />').insertAfter($input.parent());
                         $("#subAns").val(appState.history[ind][1]);
                     }
                 }
