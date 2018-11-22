@@ -859,11 +859,12 @@ $(document).ready(function() {
     function saveBtnClick(e) {
         $.ajax({
             method: "POST",
+            contentType: "application/json",
             url: API_BASE + "/save",
-            data: { 
+            data: JSON.stringify({ 
                 session_id: "",
                 history: appState.history
-            }
+            })
         })
         .done(function(msg) {
             alert("Data Saved: " + msg);
