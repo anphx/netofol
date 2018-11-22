@@ -1,10 +1,4 @@
-body {
-	background: #EFF0EF;
-	color: #303030;
-	text-align: center;
-	margin-top: 10%;
-	font-family: sans-serif;
-}
+
 button {
 	width: 12em;
 	height: 3em;
@@ -12,7 +6,7 @@ button {
 }
 
 html{
-	background: blue;
+	background: linear-gradient(to bottom, #595959 0%,#c6c6c6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 body{
@@ -22,6 +16,14 @@ body{
     width: 50em;
     top: 200px;
     padding: 5em;
+	border-top:solid #2581c3 8px;
+
+	background: #EFF0EF;
+	color: #303030;
+	text-align: center;
+	margin-top: 10%;
+	font-family: sans-serif;
+
 }
 
 #content{
@@ -29,8 +31,9 @@ body{
     top: 0%;
     left: 50%;
     text-align: left;
-    font-size:x-large;
+    font-size:xx-large;
     font-weight: 600;
+    color:#6d6d73;
 }
 
 #next-btn{
@@ -63,6 +66,26 @@ body{
   font-size:medium;
   font-weight: lighter;
 }
+
+#goto-survey-btn, #start-btn, #save-btn{
+	margin-top:60px;
+	color: white;
+    background: #34a4f3;
+    border-radius: 50px;
+    width: 222px;
+    font-size: x-large;
+    font-family: monospace;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+div#content label:first-child {
+    margin-top: 38px;
+}
+
+
+
+
 
 
 /*checkbox and radio btn*/
