@@ -34,7 +34,6 @@ var appState = {
     session_id: "0"
 };
 
-// TODO: Mixed choice: 11, 15, 42, 77
 const QUESTION_MAP = {
     // Topic: Your Company
     1: {
@@ -161,7 +160,7 @@ const QUESTION_MAP = {
         ],
         topic: TOPICS.INFRASTRUCTURES,
         subTopic: TOPICS.INFRASTRUCTURES_SUB[1],
-        qType: QUESTION_TYPE.SINGLE_CHOICE
+        qType: QUESTION_TYPE.MIXED
     },
     16: {
         //ind: 16,
@@ -651,7 +650,7 @@ const QUESTION_MAP = {
             "No"
         ],
         topic: TOPICS.ENERGY,
-        qType: QUESTION_TYPE.SINGLE_CHOICE
+        qType: QUESTION_TYPE.MIXED
     },
     73: {
         //ind: 73,
@@ -809,16 +808,17 @@ const QUESTION_MAP = {
 
 $(document).ready(function() {
     var gotoSurveyBtn = $("#goto-survey-btn");
-
     var nextBtn = $("<button>></button>").attr('id', 'next-btn').prop("disabled", true);
     var prevBtn = $("<button><</button>").attr('id', 'previous-btn');
-
     var saveBtn = $("<button>Save</button>").attr('id', 'save-btn');
     var startBtn = $("<button>Start</button>").attr('id', 'start-btn');
     var radioBtn;
     var textInput;
-    // var question = QUESTION_MAP[1].q;
 
+    // Mixed answer Question: [ "11", "15", "42", "43", "70", "72", "77" ]
+    // var mixedQsts = jQuery.grep(Object.keys(QUESTION_MAP), function(key, i) {
+    //     return (QUESTION_MAP[key].qType == QUESTION_TYPE.MIXED);
+    // });
 
     var gotoSurveyBtnClick = function(e) {
         $("#content").html("Choose your department");
@@ -842,7 +842,7 @@ $(document).ready(function() {
         startBtn.remove();
 
         // TODO: get the starting point here based on department
-        var startAt = 86;
+        var startAt = 72;
         appState.stepTracking.push(startAt);
         doRenderQuestion(startAt);
 
@@ -859,17 +859,17 @@ $(document).ready(function() {
 
     function saveBtnClick(e) {
         $.ajax({
-            method: "POST",
-            contentType: "application/json",
-            url: API_BASE + "/save",
-            data: JSON.stringify({ 
-                session_id: appState.session_id,
-                history: appState.history
+                method: "POST",
+                contentType: "application/json",
+                url: API_BASE + "/save",
+                data: JSON.stringify({
+                    session_id: appState.session_id,
+                    history: appState.history
+                })
             })
-        })
-        .done(function(msg) {
-            alert("Data Saved: " + msg);
-        });
+            .done(function(msg) {
+                alert("Data Saved: " + msg);
+            });
     }
 
     function nextBtnClick(e) {
@@ -907,15 +907,28 @@ $(document).ready(function() {
         var choices = question.a;
         $("#content").html("Question " + ind + " - " + question.q);
 
-        // SINGLE_CHOICE: 0,
-        //     MULTI_CHOICE: 1,
-        //     CONTROL_QUESTION: 2,
-        //     TEXT: 3,
-        //     MIXED: 4,
-        //     NO_CHOICE: 5
-
         switch (question.qType) {
             case QUESTION_TYPE.NO_CHOICE:
+                break;
+            case QUESTION_TYPE.MIXED:
+                var mixedQuestionMap = { 11: [2], 15: [0], 42: [0, 1], 43: [0, 1], 70: [0], 72: [0], 77: [2] };
+                for (i = 0; i < choices.length; i++) {
+                    radioBtn = $('<label class="label--radio">\
+                        <input type="radio" name="choice" class="radio" value="' + choices[i] +
+                        '" id="' + i + '" >' + choices[i] + '</input></label>');
+
+                    radioBtn.appendTo('#content');
+                    radioBtn.on('change', function(e) {
+                        updateHistory(e.target.value);
+                        nextBtn.prop("disabled", false);
+                        if (mixedQuestionMap[ind].includes(parseInt(e.target.id)) && e.target.checked) {
+                            $('<input type="text" name="subAns" id="subAns" />').insertAfter($(e.target).parent());
+                        } else {
+                            $("#subAns").remove();
+                        }
+                    });
+                }
+
                 break;
 
             case QUESTION_TYPE.TEXT:
@@ -935,12 +948,11 @@ $(document).ready(function() {
                     var checkbox = $('<label class="label--checkbox">\
                         <input type="checkbox" name="choices[]" class="checkbox" value="' + choices[i] + '" >' + choices[i] + '</input>\
                         </label>');
-                    //$("#content").append("<br>");
+
                     checkbox.appendTo('#content');
                     checkbox.on('change', function(e) {
                         var values = $('input[type=checkbox]:checked').map(function() { return this.value; }).get();
                         updateHistory(values);
-
                         nextBtn.prop("disabled", false);
                     });
                 }
@@ -957,9 +969,8 @@ $(document).ready(function() {
             case QUESTION_TYPE.SINGLE_CHOICE:
                 for (i = 0; i < choices.length; i++) {
                     radioBtn = $('<label class="label--radio"><input type="radio" name="choice" class="radio" value="' + choices[i] + '" >' + choices[i] + '</input></label>').attr('id', ind + "-" + i);
-                    //$("#content").append("<br>");
                     radioBtn.appendTo('#content');
-                    radioBtn.on('change', function(e) {
+                    radioBtn.find("input").on('change', function(e) {
                         updateHistory(e.target.value);
                         nextBtn.prop("disabled", false);
                     });
@@ -1015,6 +1026,18 @@ $(document).ready(function() {
             return current += 1;
         }
 
+    }
+
+    function notiAfterSave() {
+        alert("show after save message with session id");
+    }
+
+    function notiEndOfSection() {
+        alert("show after the department questions finishes");
+    }
+
+    function notiFinalizeSurvey() {
+        alert("show finalize message");
     }
 
 });
