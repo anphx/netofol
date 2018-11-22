@@ -3,11 +3,15 @@ from flask import Flask, request
 from flask import make_response, render_template
 from flask_pymongo import PyMongo
 from flask_compress import Compress
+from flask_cors import CORS
 
 import json, uuid
 
 app = Flask(__name__)
 Compress(app)
+CORS(app)
+
+
 
 app.config["MONGO_URI"] = "mongodb://localhost:27017/d4g"
 mongo = PyMongo(app)
