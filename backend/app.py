@@ -34,39 +34,48 @@ def load_with_session(session_id):
 def save():
     session_id = request.json['session_id']
     history = request.json['history']
+    final = request.json['final']
 
     if session_id == '0' or session_id == '':
         session_id = str(uuid.uuid4())[:8]
 
     data = {}
     data['session_id'] = session_id
+    data['final'] = final
 
-    save_to_db(session_id, history)
+    is_survey_already_finished = save_to_db(session_id, history, final)
+
+    if  is_survey_already_finished == 'surveyAlreadyFinished':
+        data['final'] = "true"
 
     return json.dumps(data), 200, {'Content-Type': 'application/json'}
 
 
 def load_history(session):
     # load history from db
-    res = mongo.db.sessions.find({"session_id":session});
+    res = mongo.db.sessions.find({"session_id":session})
     return res
 
-def save_to_db(session_id, history):
+def save_to_db(session_id, history, final):
     previous_records = load_history(session_id)
-    if(previous_records.count() == 0 ):
+    if(previous_records.count() == 0):
         # print("zeroooooo", file=sys.stdout)
-        mongo.db.sessions.insert({"session_id":session_id,"history":history})
+        mongo.db.sessions.insert({"session_id":session_id, "history":history, "final": final})
     else:
         #we have to merge things here
         pastHistory=list(previous_records)[0]['history']
+
+        if pastHistory['final'] == 'true':
+            return 'surveyAlreadyFinished'
+
 
         pastHistory.update(history)
         print(pastHistory, file=sys.stdout)
 
         #we delete previous values
         mongo.db.sessions.delete_one({"session_id":session_id})
-        mongo.db.sessions.insert({"session_id":session_id,"history":pastHistory})
-    return "success"
+        mongo.db.sessions.insert({"session_id": session_id, "history": pastHistory, "final": final})
+    return 'success'
 
 if __name__ == "__main__":
     app.run()
