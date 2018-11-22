@@ -824,12 +824,11 @@ $(document).ready(function() {
         $("#content").html("Choose your department");
         gotoSurveyBtn.remove();
         for (i = 0; i < DEPARTMENTS.length; i++) {
-            radioBtn = $('<label class="label--radio"><input type="radio" name="rbtnCount" class="radio" value="' + DEPARTMENTS[i] + '" >' + DEPARTMENTS[i] + '</input></label>').attr('id', 'dept' + i);
-            //$("#content").append("<br>");
+            radioBtn = $('<label class="label--radio">\
+                <input type="radio" name="rbtnCount" class="radio" value="' + DEPARTMENTS[i] + '" >' + DEPARTMENTS[i] + '</input></label>').attr('id', 'dept' + i);
             radioBtn.appendTo('#content');
         }
         startBtn.appendTo('body');
-
     }
 
     var startSurvey = function(e) {
@@ -919,14 +918,24 @@ $(document).ready(function() {
 
                     radioBtn.appendTo('#content');
                     radioBtn.on('change', function(e) {
-                        updateHistory(e.target.value);
-                        nextBtn.prop("disabled", false);
                         if (mixedQuestionMap[ind].includes(parseInt(e.target.id)) && e.target.checked) {
                             $('<input type="text" name="subAns" id="subAns" />').insertAfter($(e.target).parent());
                         } else {
                             $("#subAns").remove();
                         }
+                        updateHistory(e.target.value);
+                        nextBtn.prop("disabled", false);
                     });
+                }
+
+                if (appState.history[ind]) {
+                    var $input = $('input[name=choice][value="' + appState.history[ind][0] + '"]');
+                    $input.prop("checked", true);
+
+                    if (mixedQuestionMap[ind].includes(parseInt($input.prop("id")))) {
+                        $('<input type="text" name="subAns" id="subAns" />').insertAfter($input.parent());
+                        $("#subAns").val(appState.history[ind][1]);
+                    }
                 }
 
                 break;
@@ -992,7 +1001,7 @@ $(document).ready(function() {
                 break;
             case QUESTION_TYPE.MIXED:
                 appState.history[appState.currQst] = [value];
-                var textVal = $("#subAns").text();
+                var textVal = $("#subAns").val();
                 appState.history[appState.currQst].push(textVal);
                 break;
             default:
