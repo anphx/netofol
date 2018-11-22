@@ -27,7 +27,7 @@ def main():
 
 @app.route("/s/<session_id>", methods=['GET'])
 def load_with_session(session_id):
-    return render_template('index.html', session = session_id, history = list(load_history(session_id)))
+    return render_template('index.html', session = session_id, history = list(load_history(session_id))[0]["history"])
 
 
 @app.route('/save', methods=['POST'])
