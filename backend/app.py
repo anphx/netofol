@@ -1,3 +1,4 @@
+#import pymongo
 from flask import Flask, request
 from flask import make_response, render_template
 from flask_pymongo import PyMongo
@@ -42,11 +43,11 @@ def save():
 
 def load_history(session):
     # load history from db
-    res = mongo.d4g.find({"session_id":session});
+    res = mongo.db.sessions.find({"session_id":session});
     return res
 
 def save_to_db(session_id, history):
-    mongo.d4g.insert({"session_id":session_id,"history":history})
+    mongo.db.sessions.insert({"session_id":session_id,"history":history})
     return "success"
 
 if __name__ == "__main__":
