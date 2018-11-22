@@ -25,13 +25,22 @@ const TOPICS = {
     PRINTING_SUB: "Consumables"
 }
 
-const DEPARTMENTS = ["IT Services", "Management", "Facility Management"];
+const DEPARTMENTS = {
+    ORG: "Your organization",
+    ITS: "IT/Servers",
+    ITW: "IT/Workstations",
+    GIT: "Green IT",
+    ENERGY: "Energy consumption",
+    PRINTING: "Printing and paper",
+    // "IT Services", "Management", "Facility Management"
+};
 
 var appState = {
     currQst: 0,
     history: {}, // TODO: load when an existing survey is load
     stepTracking: [],
-    sessionId: "0"
+    sessionId: "0",
+    selectedDepartment: ""
 };
 
 const QUESTION_MAP = {
@@ -824,25 +833,30 @@ $(document).ready(function() {
     function gotoSurveyBtnClick(e) {
         $("#content").html("Choose your department");
         gotoSurveyBtn.remove();
-        for (i = 0; i < DEPARTMENTS.length; i++) {
+        // for (i = 0; i < DEPARTMENTS.length; i++) {
+        var keys = Object.keys(DEPARTMENTS);
+        for (i = 0; i < keys.length; i++) {
             radioBtn = $('<label class="label--radio">\
-                <input type="radio" name="rbtnCount" class="radio" value="' + DEPARTMENTS[i] + '" >' + DEPARTMENTS[i] + '</input></label>').attr('id', 'dept' + i);
+                <input type="radio" name="rbtnCount" class="radio" value="' + keys[i] + '" >' + DEPARTMENTS[keys[i]] + '</input></label>').attr('id', 'dept' + i);
             radioBtn.appendTo('#content');
         }
         startBtn.appendTo('body');
     }
 
     function startSurvey(e) {
-        var $radios = $('input[name="rbtnCount"]');
-        var $checked = $radios.filter(function() {
-            return $(this).prop('checked');
-        });
+        // var $radios = $('input[name="rbtnCount"]');
+        // var $checked = $radios.filter(function() {
+        //     return $(this).prop('checked');
+        // });
 
         $("input").remove(".department");
+        // debugger;
+
         startBtn.remove();
+        appState.selectedDepartment = $("input:checked").val();
 
         // TODO: get the starting point here based on department
-        var startAt = 72;
+        var startAt = whatsNext(appState.selectedDepartment, appState.currQst, "");
         appState.stepTracking.push(startAt);
         doRenderQuestion(startAt);
 
@@ -879,7 +893,8 @@ $(document).ready(function() {
         // updateHistory(answer);
 
         // move to next question
-        var nextQstInd = whatsNext(appState.currQst, answer);
+        // var nextQstInd = whatsNext(appState.currQst, answer);
+        var nextQstInd = whatsNext(appState.selectedDepartment, appState.currQst, "");
 
         appState.stepTracking.push(nextQstInd);
         doRenderQuestion(nextQstInd);
@@ -1012,29 +1027,80 @@ $(document).ready(function() {
         }
     }
 
-    function whatsNext(current, answer) {
-        if (current == "4" && answer == "Yes") {
-            return 5;
-        } else if (current == "4" && answer == "No") {
-            return 12;
-        } else if (current == "12" && answer == "Server") {
-            return 13;
-        } else if (current == "12" && answer == "Workstation") {
-            return 50;
-        } else if (current == "13" && answer == "Dedicated") {
-            return 14;
-        } else if (current == "13" && answer == "Non-special") {
-            return 31;
-        } else if (current == "39" && answer == "Yes") {
-            return 40;
-        } else if (current == "39" && answer == "No/DK") {
-            return 42;
-        } else if (current == "62" && answer == "Yes") {
-            return 63;
-        } else if (current == "62" && answer == "No") {
-            return 70;
+    function whatsNext(department, current, answer) {
+        if (department == "ORG" && current >= 0 && current < 11) {
+            if (current == "4" && answer == 'Yes') {
+                return 5;
+            } else if ((current == "4" && answer == 'No') || current == '10') {
+                return -1;
+            } else {
+                return current + 1;
+            }
+        } else if (department == 'ITS' && ((current > 10 && current < 44) || current == 0)) {
+            if (current == 0) {
+                return 11;
+            } else if (current == "12" && answer == "Server") {
+                return current += 1;
+            } else if (current == "12" && answer == "Workstation") {
+                return -1;
+            } else if (current == "13" && answer == "Dedicated") {
+                return 14;
+            } else if (current == "13" && answer == "Basic") {
+                return 31;
+            } else if (current == "39" && answer == "Yes") {
+                return 40;
+            } else if (current == "39" && answer == "No/DK") {
+                return 42;
+            } else if (current == "43") {
+                return -1;
+            } else {
+                next = current += 1;
+                return next;
+            }
+        } else if (department == 'GIT' && ((current > 43 && current < 50) || current == 0)) {
+            if (current == 0) {
+                return 44;
+            }
+            else if (current == "49") {
+                return -1;
+            } else {
+                next = current += 1;
+                return next;
+            }
+        } else if (department == 'ITW' && ((current > 49 && current < 70) || current == 0)) {
+            if (current == 0) {
+                return 50;
+            }
+            else if (current == "62" && answer == "Yes") {
+                return 63;
+            } else if ((current == "62" && answer == "No") || (current == "69")) {
+                return -1;
+            } else {
+                next = current += 1;
+                return next;
+            }
+        } else if (department == 'ENERGY' && ((current > 69 && current < 74) || current == 0)) {
+            if (current == 0) {
+                return 70;
+            }
+            else if (current == "73") {
+                return -1;
+            } else {
+                next = current += 1;
+                return next;
+            }
+        } else if (department == 'PRINTING' && ((current > 73 && current < 89) || current == 0)) {
+            if (current == 0) {
+                return 74;
+            }
+            else if (current == "88") {
+                return -1;
+            } else {
+                next = current += 1;
+                return next;
+            }
         } else {
-            return current += 1;
+            return -1;
         }
 
     }
