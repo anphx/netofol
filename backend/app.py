@@ -1,20 +1,15 @@
-import pymongo
-from pymongo import MongoClient
 from flask import Flask, request
 from flask import make_response, render_template
-
+from flask_pymongo import PyMongo
 
 import json, uuid
 
 app = Flask(__name__)
 
-MONGO_HOST = "mongodb://anis:tillicollapse4411@ds133353.mlab.com:33353/d4g"
-MONGO_PORT = 23456
-MONGO_DB = "d4g"
-MONGO_USER = "anis"
-MONGO_PASS = "tillicollapse"
-connection = MongoClient(MONGO_HOST, MONGO_PORT)
-mongo = connection[MONGO_DB]
+app.config["MONGO_URI"] = "mongodb://localhost:27017/d4g"
+mongo = PyMongo(app)
+
+
 
 
 @app.route("/")
