@@ -814,7 +814,8 @@ $(document).ready(function() {
     var saveBtn = $("<button>Save</button>").attr('id', 'save-btn');
     var startBtn = $("<button>Start</button>").attr('id', 'start-btn');
     var radioBtn;
-    var question = QUESTION_MAP[1].q;
+    var textInput;
+    // var question = QUESTION_MAP[1].q;
 
 
     var gotoSurveyBtnClick = function(e) {
@@ -839,7 +840,7 @@ $(document).ready(function() {
         startBtn.remove();
 
         // TODO: get the starting point here based on department
-        var startAt = 1;
+        var startAt = 86;
         appState.stepTracking.push(startAt);
         doRenderQuestion(startAt);
 
@@ -859,22 +860,21 @@ $(document).ready(function() {
     saveBtn.on('click', saveBtnClick);
 
     function nextBtnClick(e) {
-        // get current answer
-        // TODO: get answer by question type
-
         var answer = "";
         if ($("input[name=choice]").is(':radio')) {
             answer = $("input[name=choice]:checked").val();
         } else if ($("input[name=choice]").is('input:text')) {
             answer = $("input[name=choice]").text();
         }
-        // store in history array
-        updateHistory(answer);
+        // // store in history array
+        // updateHistory(answer);
 
         // move to next question
         var nextQstInd = whatsNext(appState.currQst, answer);
+
         appState.stepTracking.push(nextQstInd);
         doRenderQuestion(nextQstInd);
+
         prevBtn.prop("disabled", false);
     }
 
@@ -888,13 +888,59 @@ $(document).ready(function() {
 
     function doRenderQuestion(ind) {
         appState.currQst = ind;
+        nextBtn.prop("disabled", !appState.history[ind]);
+
         var question = QUESTION_MAP[ind];
         var choices = question.a;
         $("#content").html("Question " + ind + " - " + question.q);
 
+        // SINGLE_CHOICE: 0,
+        //     MULTI_CHOICE: 1,
+        //     CONTROL_QUESTION: 2,
+        //     TEXT: 3,
+        //     MIXED: 4,
+        //     NO_CHOICE: 5
+
         switch (question.qType) {
             case QUESTION_TYPE.NO_CHOICE:
                 break;
+
+            case QUESTION_TYPE.TEXT:
+                textInput = $('<input type="text" name="answer" id="answer" />');
+                textInput.appendTo('#content');
+                textInput.on('change keyup', function(e) {
+                    updateHistory(e.target.value);
+                    nextBtn.prop("disabled", false);
+                });
+
+                if (appState.history[ind]) textInput.val(appState.history[ind][0]);
+
+                break;
+
+            case QUESTION_TYPE.MULTI_CHOICE:
+                for (i = 0; i < choices.length; i++) {
+                    var checkbox = $('<label class="label--checkbox">\
+                        <input type="checkbox" name="choices[]" class="checkbox" value="' + choices[i] + '" >' + choices[i] + '</input>\
+                        </label>');
+                    //$("#content").append("<br>");
+                    checkbox.appendTo('#content');
+                    checkbox.on('change', function(e) {
+                        var values = $('input[type=checkbox]:checked').map(function() { return this.value; }).get();
+                        updateHistory(values);
+
+                        nextBtn.prop("disabled", false);
+                    });
+                }
+
+                // Load data from history
+                if (appState.history[ind]) {
+                    appState.history[ind].forEach(function(val) {
+                        $('input[type=checkbox][value="' + val + '"]').prop("checked", true);
+                    });
+                }
+
+                break;
+
             case QUESTION_TYPE.SINGLE_CHOICE:
                 for (i = 0; i < choices.length; i++) {
                     radioBtn = $('<label class="label--radio"><input type="radio" name="choice" class="radio" value="' + choices[i] + '" >' + choices[i] + '</input></label>').attr('id', ind + "-" + i);
@@ -905,20 +951,20 @@ $(document).ready(function() {
                         nextBtn.prop("disabled", false);
                     });
                 }
-                // Reload answer if saved
 
-                if (appState.history[ind]) {
-                    $('input[name=choice][value="' + appState.history[ind][0] + '"]').prop("checked", true);
-                }
+                // Load data from history
+                if (appState.history[ind]) $('input[name=choice][value="' + appState.history[ind][0] + '"]').prop("checked", true);
+                   
                 break;
         }
+
     }
 
     function updateHistory(value) {
         appState.history[appState.currQst] = appState.history[appState.currQst] || [];
         switch (QUESTION_MAP[appState.currQst].qType) {
             case QUESTION_TYPE.MULTI_CHOICE:
-                appState.history[appState.currQst].push(value);
+                appState.history[appState.currQst] = value;
                 break;
             case QUESTION_TYPE.MIXED:
                 appState.history[appState.currQst] = [value];
