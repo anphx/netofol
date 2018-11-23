@@ -55,14 +55,13 @@ overflow-y: hidden;
     text-align: justify;
     color: white;
     margin: 0 auto;
-    max-height: 270px;
     line-height: 1.4;
-    max-width: 700px;
+    max-width: 36em;
     font-size: 19px;
-    height: 430px;
-    margin-top: 80px;
+    height: 40vh;
+    margin-top: 90px;
     margin-bottom: 40px;
-    padding: 70px 90px 50px 90px;
+    padding: 70px 90px 40px 90px;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
@@ -215,7 +214,6 @@ overflow-y: hidden;
 		font-size: x-large;
 		font-family: monospace;
 		text-transform: uppercase;
-		font-weight: bold;
 		border: none;
 }
 
@@ -238,7 +236,6 @@ overflow-y: hidden;
 		font-size: x-large;
 		font-family: monospace;
 		text-transform: uppercase;
-		font-weight: bold;
 		height: 45px;
 		position: absolute;
 		left: 60px;
@@ -379,12 +376,18 @@ overflow-y: hidden;
     white-space: -o-pre-wrap;
     word-wrap: break-word;
 	}
+
+	#report {
+		color: red;
+		
+	}
 	</style>
 	<meta charset="UTF-8">
 </head>
 
 <body id="body" class="initial-body">
-	With the support of ADEME, the Ministry of Ecology, Energy and the Sea and the Ministry of Economy and Finance, the association AGIT (Alliance for Green IT) and the eco-organizations of the recycling network of Waste Electrical and Electronic Equipment (WEEE) organize a survey to assess the deposits of computer and office equipment present in companies and more generally on the maturity of companies in France in the use of eco-responsible digital services.
+	With the support of ADEME, the Ministry of Ecology, Energy and the Sea and the Ministry of Economy and Finance, the association AGIT (Alliance for Green IT) and the eco-organizations of the recycling network of Waste Electrical and Electronic Equipment (WEEE) organize a survey to assess the deposits of computer and office equipment present in companies and more generally on the maturity of companies in France in the use of eco-responsible digital services. 
+	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Developed by NETOFOL team for D4G 2018.
 	<button id="goto-survey-btn">Go to survey</button>
 
 	<script type="text/javascript">
@@ -397,11 +400,11 @@ overflow-y: hidden;
   var globalSession = "0";
   var globalIsFinalized = "";
 
-  {% if history %}
-  var globalHistory = {{ history | safe }};
-  var globalSession = " {{ session }}".trim();
-  var globalIsFinalized = "{{finalize}}".trim(); 
-  {% endif %}
+  // {% if history %}
+  // var globalHistory = {{ history | safe }};
+  // var globalSession = " {{ session }}".trim();
+  // var globalIsFinalized = "{{finalize}}".trim(); 
+  // {% endif %}
   const API_BASE = "http://51.75.249.213:2345";
 
   const QUESTION_TYPE = {
@@ -1333,7 +1336,6 @@ overflow-y: hidden;
       document.getElementById("body").innerHTML = "";
       contentDiv = $('<div id="content"></div>');
       contentDiv.appendTo('body');
-
       $("#content").html("Choose a department to start");
       if (globalIsFinalized == "true") {
         $("#content").append("<br/>****THIS SURVEY HAS BEEN FINALIZED! NO CHANGE ALLOWED! ****");
@@ -1352,6 +1354,8 @@ overflow-y: hidden;
 
       startBtn.prop("disabled", true);
       startBtn.appendTo('body');
+       linktoReport = $('<a href="#" id="report">Here you can see aggregated survey report</a>');
+      linktoReport.appendTo('body');
     }
 
     function startSurvey(e) {
