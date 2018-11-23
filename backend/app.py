@@ -5,6 +5,7 @@ from flask_pymongo import PyMongo
 from flask_compress import Compress
 from flask_cors import CORS
 import sys
+import pprint
 
 import json, uuid
 
@@ -32,21 +33,22 @@ def load_with_session(session_id):
 
 @app.route('/save', methods=['POST'])
 def save():
+    pprint.pprint(request.json)
     session_id = request.json['session_id']
     history = request.json['history']
-    final = request.json['final']
+    locked = request.json['finalize']
 
     if session_id == '0' or session_id == '':
         session_id = str(uuid.uuid4())[:8]
 
     data = {}
     data['session_id'] = session_id
-    data['final'] = final
+    data['locked'] = locked
 
-    is_survey_already_finished = save_to_db(session_id, history, final)
+    is_survey_already_finished = save_to_db(session_id, history, locked)
 
     if  is_survey_already_finished == 'surveyAlreadyFinished':
-        data['final'] = "true"
+        data['locked'] = "true"
 
     return json.dumps(data), 200, {'Content-Type': 'application/json'}
 
@@ -56,16 +58,16 @@ def load_history(session):
     res = mongo.db.sessions.find({"session_id":session})
     return res
 
-def save_to_db(session_id, history, final):
+def save_to_db(session_id, history, locked):
     previous_records = load_history(session_id)
     if(previous_records.count() == 0):
         # print("zeroooooo", file=sys.stdout)
-        mongo.db.sessions.insert({"session_id":session_id, "history":history, "final": final})
+        mongo.db.sessions.insert({"session_id":session_id, "history":history, "locked": locked})
     else:
         #we have to merge things here
         pastHistory=list(previous_records)[0]['history']
 
-        if pastHistory['final'] == 'true':
+        if pastHistory['locked'] == 'true':
             return 'surveyAlreadyFinished'
 
 
@@ -74,7 +76,7 @@ def save_to_db(session_id, history, final):
 
         #we delete previous values
         mongo.db.sessions.delete_one({"session_id":session_id})
-        mongo.db.sessions.insert({"session_id": session_id, "history": pastHistory, "final": final})
+        mongo.db.sessions.insert({"session_id": session_id, "history": pastHistory, "locked": locked})
     return 'success'
 
 if __name__ == "__main__":

@@ -180,7 +180,7 @@
     font-weight: bold;
   }
 
-  #save-btn {
+  .save-btn {
     color: #EFF0EF;
     background: #FE6F00;
     cursor: pointer;
@@ -196,7 +196,7 @@
     top: 400px;
   }
 
-  #save-btn[disabled] {
+  .save-btn[disabled] {
     background: grey;
   }
 
@@ -333,9 +333,9 @@
   // ========= To define global variables =====================
   {% if history %}
   var globalHistory = {{ history | safe }};
-  var globalSession = {{ session }}; {%
-    else %} {% endif %}
-  const API_BASE = "http://51.75.249.213:5000";
+  var globalSession = " {{ session }}"; 
+  {% endif %}
+  const API_BASE = "http://51.75.249.213:2345";
 
   const QUESTION_TYPE = {
     SINGLE_CHOICE: 0,
@@ -1178,8 +1178,6 @@
       subTopic: TOPICS.PRINTING_SUB,
       qType: QUESTION_TYPE.SINGLE_CHOICE
     },
-    // TODO: Render text for each answer choice
-    // concat str using |
     84: {
       //ind: 84,
       q: "Can you specify the number of cartridges / toners:",
@@ -1247,8 +1245,9 @@
     var gotoSurveyBtn = $("#goto-survey-btn");
     var nextBtn = $("<button>></button>").attr('id', 'next-btn').prop("disabled", true);
     var prevBtn = $("<button><</button>").attr('id', 'previous-btn').prop("disabled", true);
-    var saveBtn = $("<button>Save and Quit</button>").attr('id', 'save-btn').prop("disabled", false);
+    var saveBtn = $('<button class="save-btn">Save and Quit</button>').attr('id', 'save-btn').prop("disabled", true);
     var startBtn = $("<button>Start</button>").attr('id', 'start-btn');
+    var finishBtn = $('<button class="save-btn">Finish and Send</button>').attr('id', 'finish-btn');
     var radioBtn;
     var textInput;
 
@@ -1257,6 +1256,7 @@
     prevBtn.on('click', prevBtnClick);
     nextBtn.on('click', nextBtnClick);
     saveBtn.on('click', saveBtnClick);
+    finishBtn.on('click', finishBtnClick);
 
     function gotoSurveyBtnClick(e) {
       $("#content").html("Choose your department");
@@ -1285,12 +1285,12 @@
 
       appState.selectedDepartment = selected;
 
-      var startAt = whatsNext(appState.selectedDepartment, appState.currQst, "");
+      var startAt = 87; //whatsNext(appState.selectedDepartment, appState.currQst, "");
       if (startAt > 0) {
         appState.stepTracking.push(startAt);
         doRenderQuestion(startAt);
       } else {
-        alert("Out of reach");
+        notiEndOfSection();
       }
 
       prevBtn.appendTo('body');
@@ -1299,24 +1299,37 @@
     }
 
     function saveBtnClick(e) {
-      console.log("save btn clicked");
       $.ajax({
           method: "POST",
           contentType: "application/json",
           url: API_BASE + "/save",
           data: JSON.stringify({
             session_id: appState.sessionId,
-            history: appState.history
+            history: appState.history,
+            finalize: "false"
           })
         })
         .done(function(msg) {
           appState.sessionId = msg["session_id"];
-          newUrl = API_BASE + "/s/" + appState.sessionId;
-          var myNode = document.getElementById("body");
-          myNode.innerHTML = '<h1 class="final-msg">We have got your response! </h1><h2 class="final-msg">You can change your response using this link:</h2> <h3 class="final-msg"><a href="' + newUrl + '">' + newUrl + '</a></h3> <h3 class="final-msg">Give this link to other people in your company!</h3>';
+          notiAfterSave();
+        });
+    }
 
-          //alert("new url:" + newUrl );
-          // notiAfterSave("");
+    function finishBtnClick(e) {
+      $.ajax({
+          method: "POST",
+          contentType: "application/json",
+          url: API_BASE + "/save",
+          data: JSON.stringify({
+            session_id: appState.sessionId,
+            history: appState.history,
+            finalize: "true"
+          })
+        })
+        .done(function(msg) {
+          appState.sessionId = msg["session_id"];
+          var newUrl = API_BASE + "/s/" + appState.sessionId;
+          notiFinalizeSurvey();
         });
     }
 
@@ -1327,8 +1340,6 @@
       } else if ($("input[name=choice]").is('input:text')) {
         answer = $("input[name=choice]").text();
       }
-      // // store in history array
-      // updateHistory(answer);
 
       // move to next question
       // var nextQstInd = whatsNext(appState.currQst, answer);
@@ -1340,9 +1351,8 @@
 
         prevBtn.prop("disabled", false);
       } else {
-        alert("Out of reach");
+        notiEndOfSection();
       }
-
     }
 
     function prevBtnClick(e) {
@@ -1370,6 +1380,13 @@
         $("#content").html(qstContent);
       }
 
+      // if it's the final question, remove next button, add finalize
+      if (ind == Object.keys(QUESTION_MAP).length) {
+        nextBtn.remove();
+        saveBtn.remove();
+        $("#content").append(finishBtn);
+      }
+
       switch (question.qType) {
         case QUESTION_TYPE.MIXED:
           var mixedQuestionMap = { 11: [2], 15: [0], 42: [0, 1], 43: [0, 1], 70: [0], 72: [0], 77: [2] };
@@ -1390,9 +1407,8 @@
               }
               updateHistory(e.target.value);
               nextBtn.prop("disabled", false);
+              saveBtn.prop("disabled", false);
             });
-
-
           }
 
           if (appState.history[ind]) {
@@ -1413,6 +1429,7 @@
           textInput.on('change keyup', function(e) {
             updateHistory(e.target.value);
             nextBtn.prop("disabled", false);
+            saveBtn.prop("disabled", false);
           });
 
           if (appState.history[ind]) textInput.val(appState.history[ind][0]);
@@ -1430,6 +1447,7 @@
               var values = $('input[type=checkbox]:checked').map(function() { return this.value; }).get();
               updateHistory(values);
               nextBtn.prop("disabled", false);
+              saveBtn.prop("disabled", false);
             });
           }
 
@@ -1449,6 +1467,7 @@
             radioBtn.find("input").on('change', function(e) {
               updateHistory(e.target.value);
               nextBtn.prop("disabled", false);
+              saveBtn.prop("disabled", false);
             });
           }
 
@@ -1539,7 +1558,7 @@
       } else if (department == 'PRINTING' && ((current > 73 && current < 89) || current == 0)) {
         if (current == 0) {
           return 74;
-        } else if (current == "88") {
+        } else if (current == "89") {
           return -1;
         } else {
           next = current += 1;
@@ -1548,21 +1567,35 @@
       } else {
         return -1;
       }
-
     }
 
     function notiAfterSave() {
-      alert("show after save message with session id");
+      var newUrl = API_BASE + "/s/" + appState.sessionId;
+
+      var myNode = document.getElementById("body");
+      myNode.innerHTML = '<h1 class="final-msg">We have got your response! </h1>\
+        <h2 class="final-msg">You can change your response using this link:</h2>\
+        <h3 class="final-msg"><a href="' + newUrl + '">' + newUrl + '</a></h3>\
+        <h3 class="final-msg">Give this link to other people in your company!</h3>';
     }
 
     function notiEndOfSection() {
-      alert("show after the department questions finishes");
+      var newUrl = API_BASE + "/s/" + appState.sessionId;
+      var myNode = document.getElementById("body");
+      myNode.innerHTML = '<h1 class="final-msg">You have finished all questions within this professional department! </h1>\
+        <h2 class="final-msg">You need to save your response before continuing with other sections</h2>';
+      myNode.append(saveBtn);  
     }
 
-    function notiFinalizeSurvey() {
-      alert("show finalize message");
-    }
+    function notiFinalizeSurvey(newUrl) {
+      var newUrl = API_BASE + "/s/" + appState.sessionId;
 
+      var myNode = document.getElementById("body");
+      myNode.innerHTML = '<h1 class="final-msg">Thank you for your participant in the survey!</h1>\
+        <h2 class="final-msg">Your response has been recorded and will be used for #GreenReport </h2>\
+        <h3 class="final-msg">You can access the recorded survey via <a href="' + newUrl + '">' + newUrl + '</a></h3>\
+        <h3 class="final-msg">No further change can be made!</h3>';
+    }
   });
 
   </script>
