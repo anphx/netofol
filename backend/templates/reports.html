@@ -4,15 +4,55 @@
 <head>
   <link rel="icon" href="data:,">
   <style type="text/css">
+  html{
+  	overflow-y:scroll!important;
+  }
   body{
   	width:800px;
   	height:800px;
   	margin:0 auto;
+  	display: table;
+  }
+  .report-body{
+  	position: relative!important;
+  }
+  .report-body h1{
+  	font-size: larger;
+    color: #f9f7f7;
+  }
+  .filter-report{
+  	text-align: center;
+  }
+  .filter-report input{
+  	width:50px!important;
+  	display: inline-block!important;
+  	padding:7px!important;
+  }
+  .filter-report button{
+  	background:#FE6F00;
+  	position: static;
+  	height: 30px;
+  }
+  .previous-btn, .next-btn{
+  	background: blue!important;
   }
   h1{
   	font-family: sans-serif;
   	color:grey;
   }
+  a#downloadAnchorElem {
+  	    position: absolute;
+    top: 30px;
+    right: 30px;
+    font-size: larger;
+  }
+    a#downloadAnchorElemHome {
+  	    position: absolute;
+    top: 30px;
+    left: 30px;
+    font-size: larger;
+  }
+  	h1.final-msg{font-size: xx-large;font-weight: bolder;color: #525151;}h2.final-msg{font-size: large;font-weight: 500;color: #525151;}h3.final-msg{background: #dcdce4;padding: 60px;font-family: monospace;color: black;}.final-msg a{color: #840707;font-weight: 900;font-size: xx-large;}/*end of final msg */button{width: 12em;height: 3em;margin: 10px;cursor: pointer;}.usual-html{background: #4d4d4d; overflow-y: scroll;}.initial-html{background-color: #babab3;background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cpolygon fill='%23858585' points='957 450 539 900 1396 900'/%3E%3Cpolygon fill='%232a2f33' points='957 450 872.9 900 1396 900'/%3E%3Cpolygon fill='%23727079' points='-60 900 398 662 816 900'/%3E%3Cpolygon fill='%23232930' points='337 900 398 662 816 900'/%3E%3Cpolygon fill='%235f5b6d' points='1203 546 1552 900 876 900'/%3E%3Cpolygon fill='%231c232c' points='1203 546 1552 900 1162 900'/%3E%3Cpolygon fill='%234c4861' points='641 695 886 900 367 900'/%3E%3Cpolygon fill='%23171d29' points='587 900 641 695 886 900'/%3E%3Cpolygon fill='%23393556' points='1710 900 1401 632 1096 900'/%3E%3Cpolygon fill='%23121725' points='1710 900 1401 632 1365 900'/%3E%3Cpolygon fill='%2325234a' points='1210 900 971 687 725 900'/%3E%3Cpolygon fill='%230f1021' points='943 900 1210 900 971 687'/%3E%3C/svg%3E");background-attachment: fixed;background-size: cover;overflow-y: hidden;}.initial-body{background: rgba(0,0,0,0.2); text-align: justify; color: white; margin: 0 auto; line-height: 1.4; max-width: 36em; font-size: 19px; height: 40vh; margin-top: 90px; margin-bottom: 40px; padding: 70px 90px 40px 90px; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;}#goto-survey-btn{margin-top: 60px; color: #EFF0EF; background: #FE6F00; cursor: pointer; border-radius: 50px; width: 222px; font-size: inherit; font-family: monospace; text-transform: uppercase; border: none; display: block; margin: 50px auto;}.usual-body{margin: 0 auto;max-height: 430px;max-width: 700px;height: 430px;padding: 50px 90px 50px 90px;border-top: solid #FE6F00 40px;background: #fff;color: #303030;text-align: center;margin-top: 80px;margin-bottom: 40px;font-family: sans-serif;box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);border-radius: 15px;position: relative;overflow: hidden;}#content{margin: 0 auto;top: 0%;left: 50%;text-align: left;font-size: larger;font-weight: 600;color: #4D4D4D;}#next-btn{margin-right: -90px;margin-top: 0px;color: #EFF0EF;background: #FE6F00;cursor: pointer;border-radius: 200em 0 0 200em;width: 62px;height: 89px;font-size: 43px;font-family: monospace;text-transform: uppercase;font-weight: bold;transition-duration: 0.4s;overflow: hidden;text-align: center;float: right;position: absolute;right: 90px;top: 150px; border: none;}#next-btn:hover{color:white;transform: scale(1.1);cursor: pointer;}#next-btn[disabled]{color: white;background-color: grey;}#next-btn[disabled]:hover{color: white;background-color: grey;transform: scale(1.0);}#previous-btn{left: -10px;border-radius: 0 200em 200em 0;height: 89px;overflow: hidden;position: relative;margin-top: 0px;color: #EFF0EF;background: #FE6F00;cursor: pointer;width: 62px;font-size: 43px;font-family: monospace;text-transform: uppercase;font-weight: bold;transition-duration: 0.4s;text-align: center;float: left;position: absolute; border: none;top: 150px;}#previous-btn:hover{color: white;transform: scale(1.1);cursor: pointer;}#previous-btn[disabled]{color: white;background-color: grey;}#previous-btn[disabled]:hover{color: white;background-color: grey;transform: scale(1.0);}.label--checkbox,.label--radio{display: block;position: relative;margin: .5rem;font-family: sans-serif;line-height: 135%;cursor: pointer;text-align:left;font-size:medium;font-weight: lighter;color: #4D4D4D;}#report-btn{margin-top:45px;color: #a74507;cursor: pointer;font-size: x-large;border: none;float: left;font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;}#report-btn:hover{opacity: 0.8; transform: scale(1.05);}#start-btn{margin-top:30px;color: #EFF0EF;background: #FE6F00;cursor: pointer;border-radius: 50px;width: 222px;font-size: x-large;font-family: monospace;text-transform: uppercase;border: none;float: right;}#goto-survey-btn:hover{opacity: 0.8; transform: scale(1.05);}#start-btn:hover{opacity: 0.8; transform: scale(1.05);}#start-btn[disabled]{background: grey;}.save-btn{color: #EFF0EF;background: #FE6F00;cursor: pointer;border-radius: 50px;width: 222px;font-size: x-large;font-family: monospace;text-transform: uppercase;height: 45px;position: absolute;left: 60px;top: 435px; border: none;}.save-btn[disabled]{background: grey;}div#content label:first-child{margin-top: 38px;}/*checkbox and radio btn*/.checkbox{position: relative;top: -0.375rem;margin: 0 1rem 0 0;cursor: pointer;}.checkbox:before{-webkit-transition: -webkit-transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);-moz-transition: -moz-transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);transition: transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);-webkit-transform: rotate(-45deg) scale(0, 0);-moz-transform: rotate(-45deg) scale(0, 0);-ms-transform: rotate(-45deg) scale(0, 0);-o-transform: rotate(-45deg) scale(0, 0);transform: rotate(-45deg) scale(0, 0);content: "";position: absolute;left: 0.1875rem;top: 0.125rem;z-index: 1;width: 0.75rem;height: 0.375rem;border: 2px solid #16a085;border-top-style: none;border-right-style: none;}.checkbox:checked:before{-webkit-transform: rotate(-45deg) scale(1, 1);-moz-transform: rotate(-45deg) scale(1, 1);-ms-transform: rotate(-45deg) scale(1, 1);-o-transform: rotate(-45deg) scale(1, 1);transform: rotate(-45deg) scale(1, 1);}.checkbox:after{content: "";position: absolute;top: -0.125rem;left: 0;width: 1rem;height: 1rem;background: #fff;border: 2px solid #f2f2f2;cursor: pointer;}.radio{position: relative;margin: 0 1rem 0 0;cursor: pointer;}.radio:before{-webkit-transition: -webkit-transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);-moz-transition: -moz-transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);transition: transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);-webkit-transform: scale(0, 0);-moz-transform: scale(0, 0);-ms-transform: scale(0, 0);-o-transform: scale(0, 0);transform: scale(0, 0);content: "";position: absolute;top: 0;left: 0.125rem;z-index: 1;width: 0.75rem;height: 0.75rem;background: #16a085;border-radius: 50%;}.radio:checked:before{-webkit-transform: scale(1, 1);-moz-transform: scale(1, 1);-ms-transform: scale(1, 1);-o-transform: scale(1, 1);transform: scale(1, 1);}.radio:after{content: "";position: absolute;top: -0.25rem;left: -0.125rem;width: 1rem;height: 1rem;background: #fff;border: 2px solid #f2f2f2;border-radius: 50%;}input[type=text]{width: 50%;padding: 12px 20px;display: inline-block;border: 1px solid #ccc;border-radius: 4px;box-sizing: border-box;display: block;}#answer{margin-top: 38px;}#subAns{margin-top: 4px; margin-left: 40px;}.formated-text{font-family: sans serif; font-size: 16px; text-overflow: clip; white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;}#instruction{font-size: 14px;text-align: justify;color: grey;padding: 10px 0 0 0;margin-top: 20px;}
   </style>
   <meta charset="UTF-8">
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
@@ -20,13 +60,20 @@
 
 
 </head>
-<body id="body" class="initial-body" width="400px" height="400px">
+<body id="body" class="initial-body report-body" width="400px" height="400px">
 	<h1 id="title"></h1>
-	<canvas id="myChart" width="800px" height="800px"></canvas>
-    reports.
-    {{data}}
+	<a id="downloadAnchorElem" >Download Data</a>
+	<a id="downloadAnchorElemHome" href="/">Home</a>
 
-    <button id="goto-survey-btn">Go to survey</button>
+  <button id="previous-btn" type="button" onclick="prevBtnClick()"><<</button>
+  <div class="filter-report">
+  	Question Number:
+<input type="text" placeholder="enter question number" id="current-question" />
+<button type="button" class="save-btn" onclick="viewChartClick()">Show chart</button>
+</div>
+<button id="next-btn" type="button" onclick="nextBtnClick()">>></button>
+	<canvas id="myChart" width="800px" height="800px"></canvas>    
+
 
 
   <script type="text/javascript">
@@ -499,12 +546,31 @@
   }
   };
 
-  	var currentQuestion=55;
-  	var info={{data|safe}};
-	var ctx = document.getElementById("myChart");//.getContext("2d");
+
+
+
+  var currentQuestion=1;
+  var info={{data|safe}};
+  var myChart;
+	var ctx = document.getElementById("myChart");
+
+
+
+
+//download json file
+var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(info));
+var dlAnchorElem = document.getElementById('downloadAnchorElem');
+dlAnchorElem.setAttribute("href", dataStr );
+dlAnchorElem.setAttribute("download", "scene.json");
+//dlAnchorElem.click();
+
+
+	//.getContext("2d");
+	// initGraph();
 	//var ctx = document.getElementById("myChart");
 	//var fillPattern = ctx.createPattern(2, 'repeat');
-	var myChart = new Chart(ctx, {
+	function initGraph() {
+		myChart = new Chart(ctx, {
 	    type: 'doughnut',
 	    data: {
 	        labels: Object.keys(info[currentQuestion]),
@@ -570,13 +636,14 @@
 			title: {
 				display: true,
 				text: 'Question '+currentQuestion,
-				fontSize:30
+				fontSize:25,
+				fontColor:'black'
 			},
 	    	legend: {
 	    		position:'bottom',
 	            display: true,
 	            labels: {
-	                fontColor: 'grey',
+	                fontColor: 'black',
 	                fontFamily:"sans-serif",
 	    			fontSize:20,
 
@@ -591,16 +658,58 @@
 	        // }
 	    }
 	});
-
-	function loadQuestion(){
-		title=document.getElementById("title");
-		title.innerHTML=QUESTION_MAP[currentQuestion]['q'];
 	}
-	(function(){
-		loadQuestion();
+
+	function viewQuestion(ind) {
+		console.log("fetching next question");
+		// currentQuestion++;
+		loadQuestion(ind);
+    if (myChart) myChart.destroy();
+		// document.getElementById("myChart").remove();
+    // var element = document.createElement("canvas");
+    // element.setAttribute("id", "myChart");
+
+    // var element = document.createElement('<canvas id="myChart" width="800px" height="800px"></canvas>');
+		// document.getElementById("body").append(element);
+		initGraph();
+		canvas = document.getElementById("myChart"); // why use jQuery?
+  	ctx = canvas.getContext('2d');
+  	ctx.canvas.width = document.getElementById('graph').width(); // resize to parent width
+  	ctx.canvas.height = document.getElementById('graph').height(); // resize to parent height
+  	var x = canvas.width/2;
+    var y = canvas.height/2;
+    ctx.font = '10pt Verdana';
+    ctx.textAlign = 'center';
+    ctx.fillText('This text is centered on the canvas', x, y);
+	}
+
+	function loadQuestion(ind) {
+		title=document.getElementById("title");
+		title.innerHTML=ind + " - " + QUESTION_MAP[ind]['q'];
+	}
+
+  function viewChartClick(e) {
+    currentQuestion = document.getElementById("current-question").value;
+    viewQuestion(currentQuestion);
+  }
+
+  function nextBtnClick(e) {
+    currentQuestion ++;
+    document.getElementById("current-question").value = currentQuestion;
+    viewQuestion(currentQuestion);
+  }
+
+  function prevBtnClick(e) {
+    currentQuestion --;
+    document.getElementById("current-question").value = currentQuestion;
+    viewQuestion(currentQuestion);
+  }
+
+	(function() {
+		loadQuestion(currentQuestion);
+    document.getElementById("current-question").value = currentQuestion;
 	})();
   </script>
-
 
 </body>
 
