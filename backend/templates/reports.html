@@ -4,19 +4,604 @@
 <head>
   <link rel="icon" href="data:,">
   <style type="text/css">
-
+  body{
+  	width:800px;
+  	height:800px;
+  	margin:0 auto;
+  }
+  h1{
+  	font-family: sans-serif;
+  	color:grey;
+  }
   </style>
   <meta charset="UTF-8">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script type="text/javascript">
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
 
 
-  </script>
 </head>
-
-<body id="body" class="initial-body">
+<body id="body" class="initial-body" width="400px" height="400px">
+	<h1 id="title"></h1>
+	<canvas id="myChart" width="800px" height="800px"></canvas>
     reports.
+    {{data}}
+
     <button id="goto-survey-btn">Go to survey</button>
+
+
+  <script type="text/javascript">
+  	  const QUESTION_MAP = {
+    // Topic: Your Company
+    1: {
+      // ind: 1,
+      q: "In which sector of activity is your company active? (linked with your APE code)",
+    },
+    2: {
+      // ind: 2,
+      q: "What is the number of employees in your company on 18/12/31 ?",
+    },
+    3: {
+      // ind: 3,
+      q: "What is the turnover of your company in the last fiscal year? (or annual budget for Public sector)",
+    },
+    4: {
+      // ind: 4,
+      q: "Do you develop digital services for internal or external use (sales to customers)?",
+    },
+    5: {
+      // ind: 5,
+      q: "What is the number of users of your digital services?",
+    },
+    6: {
+      // ind: 6,
+      q: "Do you apply the rules and best practices for digital accessibility?",
+    },
+    7: {
+      // ind: 7,
+      q: "Have you optimized the states and printouts in your application tools (reduced number of pages when printing, ink consumption ...)",
+    },
+    8: {
+      //ind: 8,
+      q: "Do you integrate the principles of the ecodesign of digital services?",
+    },
+    9: {
+      // ind: 9,
+      q: "Do you use a modular application architecture?",
+    },
+    10: {
+      //  ind: 10,
+      q: "Do you do a design review at the end of your application's development?",
+    },
+    // Topic INFRASTRUCTURES --> Information Technology
+    11: {
+      //  ind: 11,
+      q: "What is the overall storage volume of your corporate data (centralized on external hard drives, centralized server, NAS, SAN ...) in Terabytes (TB) useful?",
+    },
+    12: {
+      //   ind: 12,
+      q: "Do you have a server or do you only work with one or more workstations?",
+    },
+    13: {
+      //   ind: 13,
+      q: "Do you have a dedicated room, simple room or cupboard with bay dedicated to your IT infrastructure?",
+    },
+    // Topic INFRASTRUCTURES --> Server/Computer Room
+    14: {
+      //  ind: 14,
+      q: "Is your computer room in house or at a host?",
+    },
+    15: {
+      // ind: 15,
+      q: "What is the total area of your computer rooms (excluding technical infrastructure *)? (in m2)",
+  
+    },
+    16: {
+      //ind: 16,
+      q: "Do you know the PUE * of your Data Center?\n" +
+          "\t*PUE : Power Usage Effectiveness",
+    },
+    17: {
+      //ind: 17,
+      q: "What is the rate of charge or energy use of your computer rooms?\n" +
+          "\tRate = Electrical power absorbed by your IT equipment, divided by room capacity in kW, then multiplied by 100 (used energy / available energy)",
+    },
+    18: {
+      //ind: 18,
+      q: "Have you led or are you planning actions to optimize your infrastructure? Especially :",
+    },
+    19: {
+      //ind: 19,
+      q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+        "\t The purchase of non-IT equipment from IT rooms (air conditioning, air treatment, inverters, etc.)" +
+        "\t according to energy efficiency criteria",
+    },
+    20: {
+      //ind: 20,
+      q: 'Have you led or are you planning actions to optimize your infrastructure? Especially:\n' +
+        '\t Implementing the good practices of the "European Code of Conduct for DataCenter"?',
+    },
+    21: {
+      //ind: 21,
+      q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+        "\t Data center PUE tracking",
+    },
+    22: {
+      //ind: 22,
+      q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+        "\t Regular monitoring of environmental indicators of computer rooms",
+    },
+    23: {
+      //ind: 23,
+      q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+        "\t Environmental impact analysis of the datacenter in life cycle approach",
+    },
+    24: {
+      //ind: 24,
+      q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+        "\t Optimizing the architecture and layout of rooms",
+    },
+    25: {
+      //ind: 25,
+      q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+        "\t The urbanization of halls in hot / cold aisles",
+    },
+    26: {
+      //ind: 26,
+      q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+        "\t Containment of air flows (corridors)",
+    },
+    27: {
+      //ind: 27,
+      q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+        "\t The use of natural cooling sources (freecooling)",
+    },
+    28: {
+      //ind: 28,
+      q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+        "\t Implementation of a heat recovery system for computer rooms (heating)",
+    },
+    29: {
+      //ind: 29,
+      q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+        "\t The set temperature in the cold corridor remains higher than 24 °",
+    },
+    30: {
+      //ind: 30,
+      q: "Have you led or are you planning actions to optimize your infrastructure? Especially:\n" +
+        "\t The choice of a modular datacenter architecture",
+    },
+
+    // Topic INFRASTRUCTURES --> Server / A cupboard or a dedicated room
+    31: {
+      //ind: 31,
+      q: "Have you led or are you planning actions to optimize your infrastructure? Especially :",
+    },
+    32: {
+      //ind: 32,
+      q: "Have you led or are you planning actions to optimize your infrastructure? Especially: \n" +
+        "\tSuspending network equipment",
+    },
+    33: {
+      //ind: 33,
+      q: "Have you led or are you planning actions to optimize your infrastructure? Especially: \n" +
+        "\tPooling physical equipment",
+    },
+    34: {
+      //ind: 34,
+      q: "Have you led or are you planning actions to optimize your infrastructure? Especially: \n" +
+        "\tUninstalling unnecessary infrastructure",
+    },
+    35: {
+      //ind: 35,
+      q: "Have you led or are you planning actions to optimize your infrastructure? Especially: \n" +
+        "\tTraceability of material elements (CMDB)",
+    },
+    36: {
+      //ind: 36,
+      q: "Have you led or are you planning actions to optimize your infrastructure? Especially: \n" +
+        "\tThe correct sizing of the servers in relation to their use",
+    },
+    37: {
+      //ind: 37,
+      q: "Have you led or are you planning actions to optimize your infrastructure? Especially: \n" +
+        "\tGive priority to ASHRAE 2 compatible equipment",
+    },
+    38: {
+      //ind: 38,
+      q: "Have you led or are you planning actions to optimize your infrastructure? Especially: \n" +
+        "\tA procedure for provisioning and de-provisioning data-processing equipment in datacenters",
+    },
+    39: {
+      //ind: 39,
+      q: "Do you know the number of physical servers and virtual servers in your company?",
+    },
+    40: {
+      //ind: 40,
+      q: "How many physical servers do you have?",
+    },
+    41: {
+      //ind: 41,
+      q: "How many virtual servers do you have?",
+    },
+    42: {
+      //ind: 42,
+      q: "What will be the evolution of your number of physical servers for 2019? (in% or quantity)",
+    },
+    43: {
+      //ind: 43,
+      q: "What will be the evolution of your number of virtual servers for 2019? (in% or quantity)",
+    },
+    // Topic: Management
+    44: {
+      //ind: 44,
+      q: "Has your company appointed a Green IT Manager / Digital Manager?",
+    },
+    45: {
+      //ind: 45,
+      q: "Do you have a responsible digital strategy broken down into an action plan?",
+    },
+    46: {
+      //ind: 46,
+      q: "Is Green IT a topic integrated into your CSR strategy?",
+    },
+    47: {
+      //ind: 47,
+      q: "Do you regularly evaluate the environmental impacts of your information system?",
+    },
+    48: {
+      //ind: 48,
+      q: "Do you have a team of competent referees on the topics of Green IT?",
+    },
+    49: {
+      //ind: 49,
+      q: "Have you integrated Green IT into your business strategy",
+    },
+    // Topic: Infrastructure --> Workstation
+    50: {
+      //ind: 50,
+      q: "Do you have those equipments in your company:|" +
+        "Used: equipment used in the business activity \n" +
+        "Not used functional: equipment in working order but no more used by the company (stored) \n" +
+        "Neither used nor functional: out of service equipment (HS) waiting for end of life treatment",
+    },
+    51: {
+      //ind: 51,
+      q: "Do you have those equipments in your company:\n" +
+        "\t- Used: equipment used in the business activity\n" +
+        "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+        "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+        "\nFixed stations, workstations",
+    },
+    52: {
+      //ind: 52,
+      q: "Do you have those equipments in your company:\n" +
+        "\t- Used: equipment used in the business activity\n" +
+        "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+        "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+        "\nLaptops, digital tablets",
+    },
+    53: {
+      //ind: 53,
+      q: "Do you have those equipments in your company:\n" +
+        "\t- Used: equipment used in the business activity\n" +
+        "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+        "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+        "\nSmall printers (<15kg, potentially used by a household)",
+    },
+    54: {
+      //ind: 54,
+      q: "Do you have those equipments in your company:\n" +
+        "\t- Used: equipment used in the business activity\n" +
+        "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+        "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+        "\nFlat screen monitors",
+    },
+    55: {
+      //ind: 55,
+      q: "Do you have those equipments in your company:\n" +
+        "\t- Used: equipment used in the business activity\n" +
+        "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+        "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+        "\nOther flat screens (TV, projection screen, digital board ...)",
+    },
+    56: {
+      //ind: 56,
+      q: "Do you have those equipments in your company:\n" +
+        "\t- Used: equipment used in the business activity\n" +
+        "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+        "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+        "\nCRT monitors (monitors or other)",
+    },
+    57: {
+      //ind: 57,
+      q: "Do you have those equipments in your company:\n" +
+        "\t- Used: equipment used in the business activity\n" +
+        "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+        "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+        "\nVideo projectors",
+    },
+    58: {
+      //ind: 58,
+      q: "Do you have those equipments in your company:\n" +
+        "\t- Used: equipment used in the business activity\n" +
+        "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+        "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+        "\nMobile phones",
+    },
+    59: {
+      //ind: 59,
+      q: "Do you have those equipments in your company:\n" +
+        "\t- Used: equipment used in the business activity\n" +
+        "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+        "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+        "\nFixed telephones (standalone not connected to such a standard)",
+    },
+    60: {
+      //ind: 60,
+      q: "Do you have those equipments in your company:\n" +
+        "\t- Used: equipment used in the business activity\n" +
+        "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+        "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+        "\nDigital cameras",
+    },
+    61: {
+      //ind: 61,
+      q: "Do you have those equipments in your company:\n" +
+        "\t- Used: equipment used in the business activity\n" +
+        "\t- Not used functional: equipment in working order but no more used by the company (stored)\n" +
+        "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment\n" +
+        "\nHard Disk Devices, Storage, Backup",
+    },
+    62: {
+      //ind: 62,
+      q: "Do you have other devices in your company?\n" +
+        "\t Keyboards, mouse, graphic tablets, scanners, microphones, speakers, office equipment ...",
+    },
+    63: {
+      //ind: 63,
+      q: "Regarding other devices, do you have in your company:\n" +
+        "\t- Used: equipment used in the business activity \n" +
+        "\t- Not used functional: equipment in working order but no more used by the company (stored) \n" +
+        "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment",
+    },
+    64: {
+      //ind: 64,
+      q: "Regarding other devices, do you have in your company:\n" +
+        "\t- Used: equipment used in the business activity \n" +
+        "\t- Not used functional: equipment in working order but no more used by the company (stored) \n" +
+        "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment" +
+        "\nKeyboards",
+    },
+    65: {
+      //ind: 65,
+      q: "Regarding other devices, do you have in your company:\n" +
+        "\t- Used: equipment used in the business activity \n" +
+        "\t- Not used functional: equipment in working order but no more used by the company (stored) \n" +
+        "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment" +
+        "\nMouse",
+    },
+    66: {
+      //ind: 66,
+      q: "Regarding other devices, do you have in your company:\n" +
+        "\t- Used: equipment used in the business activity \n" +
+        "\t- Not used functional: equipment in working order but no more used by the company (stored) \n" +
+        "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment" +
+        "\nGraphic tablets",
+    },
+    67: {
+      //ind: 67,
+      q: "Regarding other devices, do you have in your company:\n" +
+        "\t- Used: equipment used in the business activity \n" +
+        "\t- Not used functional: equipment in working order but no more used by the company (stored) \n" +
+        "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment" +
+        "\nScanners",
+    },
+    68: {
+      //ind: 68,
+      q: "Regarding other devices, do you have in your company:\n" +
+        "\t- Used: equipment used in the business activity \n" +
+        "\t- Not used functional: equipment in working order but no more used by the company (stored) \n" +
+        "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment" +
+        "\nSpeakers",
+    },
+    69: {
+      //ind: 69,
+      q: "Regarding other devices, do you have in your company:\n" +
+        "\t- Used: equipment used in the business activity \n" +
+        "\t- Not used functional: equipment in working order but no more used by the company (stored) \n" +
+        "\t- Neither used nor functional: out of service equipment (HS) waiting for end of life treatment" +
+        "\nOffice automation",
+    },
+    // Topic: Energy consumption
+    70: {
+      //ind: 70,
+      q: "Do you know the consumption of your workstation in kWh per year?",
+    },
+    71: {
+      //ind: 71,
+      q: "Do you track the energy consumption of your compagny activities?",
+    },
+    72: {
+      //ind: 72,
+      q: "Do you know the share of IT and IT equipment in your company's total energy consumption?",
+    },
+    73: {
+      //ind: 73,
+      q: "Have you set up a power management system? (automatic shutdown / shutdown of workstations)",
+    },
+
+    // Topic: Printing
+    74: {
+      //ind: 74,
+      q: "Do you use copiers from a repackaging industry (second-hand / second-hand)?",
+    },
+    75: {
+      //ind: 75,
+      q: "Do you consolidate individual printers to shared printers?",
+    },
+    76: {
+      //ind: 76,
+      q: "Have you set up an identification system on printers (to trigger printing)?",
+    },
+    77: {
+      //ind: 77,
+      q: "What is the average life of your professional copier / MFP *?|* MFP Multi Fonction Printer",
+
+    },
+    78: {
+      //ind: 78,
+      q: "Are your printers set by default in eco mode? Especially:\n",
+    },
+    79: {
+      //ind: 79,
+      q: "Are your printers set by default in eco mode? Especially:\n" +
+        "\tEnergy saving (Automatic standby)",
+    },
+    80: {
+      //ind: 80,
+      q: "Are your printers set by default in eco mode? Especially:\n" +
+        "\tBlack and white by default",
+    },
+    81: {
+      //ind: 81,
+      q: "Are your printers set by default in eco mode? Especially:\n" +
+        "\tDefault duplex",
+    },
+    82: {
+      //ind: 82,
+      q: "Are your printers set by default in eco mode? Especially:\n" +
+        "\tDefault draft mode",
+    },
+    // Topic: Printing --> Consumables
+    83: {
+      //ind: 83,
+      q: "What is the number of pages printed / day / employee? (A4 equivalent)",
+    },
+    84: {
+      //ind: 84,
+      q: "Can you specify the number of cartridges / toners:",
+    },
+    85: {
+      //ind: 85,
+      q: "Do you organize the separate collection of waste cartridges / toners?",
+    },
+    86: {
+      //ind: 86,
+      q: "Do you prefer the use of recycled paper?",
+    },
+    87: {
+      //ind: 87,
+      q: "Do you choose certified paper?",
+    },
+    88: {
+      //ind: 88,
+      q: "Do you organize the separate collection of waste paper for recycling?",
+  }
+  };
+
+  	var currentQuestion=55;
+  	var info={{data|safe}};
+	var ctx = document.getElementById("myChart");//.getContext("2d");
+	//var ctx = document.getElementById("myChart");
+	//var fillPattern = ctx.createPattern(2, 'repeat');
+	var myChart = new Chart(ctx, {
+	    type: 'doughnut',
+	    data: {
+	        labels: Object.keys(info[currentQuestion]),
+	        datasets: [{
+	            label: 'Question # 1',
+	            data: Object.values(info[currentQuestion]),
+                backgroundColor: [
+                '#3210CC',
+                '#645899',
+                '#2D77FF',
+                '#FFC26D',
+                '#CC6210',
+                '#645899',
+					'rgba(255, 99, 132, 0.2)',
+	                'rgba(54, 162, 235, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(75, 192, 192, 0.2)',
+	                'rgba(153, 102, 255, 0.2)',
+	                'rgba(255, 159, 64, 0.2)',
+	                'rgba(255, 99, 132, 0.2)',
+	                'rgba(54, 162, 235, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(75, 192, 192, 0.2)',
+	                'rgba(153, 102, 255, 0.2)',
+	                'rgba(255, 159, 64, 0.2)',
+	                'rgba(255, 99, 132, 0.2)',
+	                'rgba(54, 162, 235, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(75, 192, 192, 0.2)',
+	                'rgba(153, 102, 255, 0.2)',
+	                'rgba(255, 159, 64, 0.2)',
+	                'rgba(255, 99, 132, 0.2)',
+	                'rgba(54, 162, 235, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(75, 192, 192, 0.2)',
+	                'rgba(153, 102, 255, 0.2)',
+	                'rgba(255, 159, 64, 0.2)',
+		        ],
+	            //backgroundColor:fillPattern,
+	   //          backgroundColor: palette('tol', Object.values(info[1]).length).map(function(hex) {
+				// 	return '#' + hex;
+				// }),
+	            // backgroundColor: [
+	            //     'rgba(255, 99, 132, 0.2)',
+	            //     'rgba(54, 162, 235, 0.2)',
+	            //     'rgba(255, 206, 86, 0.2)',
+	            //     'rgba(75, 192, 192, 0.2)',
+	            //     'rgba(153, 102, 255, 0.2)',
+	            //     'rgba(255, 159, 64, 0.2)'
+	            // ],
+	            // borderColor: [
+	            //     'rgba(255,99,132,1)',
+	            //     'rgba(54, 162, 235, 1)',
+	            //     'rgba(255, 206, 86, 1)',
+	            //     'rgba(75, 192, 192, 1)',
+	            //     'rgba(153, 102, 255, 1)',
+	            //     'rgba(255, 159, 64, 1)'
+	            // ],
+	            borderWidth: 1
+	        }]
+	    },
+	    options: {
+			title: {
+				display: true,
+				text: 'Question '+currentQuestion,
+				fontSize:30
+			},
+	    	legend: {
+	    		position:'bottom',
+	            display: true,
+	            labels: {
+	                fontColor: 'grey',
+	                fontFamily:"sans-serif",
+	    			fontSize:20,
+
+	            }
+        	}
+	        // scales: {
+	        //     yAxes: [{
+	        //         ticks: {
+	        //             beginAtZero:true
+	        //         }
+	        //     }]
+	        // }
+	    }
+	});
+
+	function loadQuestion(){
+		title=document.getElementById("title");
+		title.innerHTML=QUESTION_MAP[currentQuestion]['q'];
+	}
+	(function(){
+		loadQuestion();
+	})();
+  </script>
+
+
 </body>
 
 </html>

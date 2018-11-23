@@ -4,6 +4,7 @@ from flask import make_response, render_template
 from flask_pymongo import PyMongo
 from flask_compress import Compress
 from flask_cors import CORS
+from aggregator import get_data
 import sys
 import pprint
 
@@ -21,6 +22,7 @@ mongo = PyMongo(app)
 
 @app.route("/reports")
 def reports():
+    data=get_data()
     return render_template('reports.html',data=data)
 
 @app.route("/")
@@ -69,7 +71,7 @@ def save_to_db(session_id, history, locked):
         #we have to merge things here
         pastHistory=list(previous_records)[0]['history']
 
-        if pastHistory['locked'] == 'true':
+        if 'locked' in pastHistory and pastHistory['locked'] == 'true':
             return 'surveyAlreadyFinished'
 
 
