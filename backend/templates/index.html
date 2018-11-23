@@ -1321,11 +1321,12 @@ overflow-y: hidden;
       document.getElementById("body").classList.add('usual-body');
       document.getElementById("html").classList.remove('initial-html');
       document.getElementById("html").classList.add('usual-html');
+      document.getElementById("body").innerHTML = "";
       contentDiv = $('<div id="content"></div>');
       contentDiv.appendTo('body');
 
       $("#content").html("Choose a department to start");
-      if (globalIsFinalized) {
+      if (globalIsFinalized == "true") {
         $("#content").append("<br/>****THIS SURVEY HAS BEEN FINALIZED! NO CHANGE ALLOWED! ****");
       }
       gotoSurveyBtn.remove();
@@ -1367,7 +1368,7 @@ overflow-y: hidden;
     }
 
     function saveBtnClick(e) {
-      if (globalIsFinalized) return;
+      if (globalIsFinalized == "true") return;
       $.ajax({
           method: "POST",
           contentType: "application/json",
@@ -1456,11 +1457,15 @@ overflow-y: hidden;
         finishBtn = $('<button class="save-btn">Finish and Send</button>').attr('id', 'finish-btn').on('click', finishBtnClick);
         $("#content").append(finishBtn);
       } else {
-        nextBtn = $("<button>></button>").attr('id', 'next-btn').on('click', nextBtnClick);
-        nextBtn.appendTo($("#content"));
-        saveBtn = $('<button class="save-btn">Save and Quit</button>').attr('id', 'save-btn').on('click', saveBtnClick);
-        saveBtn.appendTo($("#content"));
         finishBtn.remove();
+        if (!$("#next-btn")) {
+          nextBtn = $("<button>></button>").attr('id', 'next-btn').on('click', nextBtnClick).prop("disabled", !appState.history[ind]);
+          nextBtn.appendTo($("#content")); 
+        }
+        if (!$("#next-btn")) {
+          saveBtn = $('<button class="save-btn">Save and Quit</button>').attr('id', 'save-btn').on('click', saveBtnClick);
+          saveBtn.appendTo($("#content"));
+        }
       }
 
       switch (question.qType) {
@@ -1552,7 +1557,7 @@ overflow-y: hidden;
 
           break;
       }
-      if (globalIsFinalized) {
+      if (globalIsFinalized == "true") {
         saveBtn.prop("disabled", true);
         finishBtn.prop("disabled", true);
       }
