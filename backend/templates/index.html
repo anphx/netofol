@@ -1546,7 +1546,7 @@ overflow-y: hidden;
           break;
 
         case QUESTION_TYPE.TEXT:
-          textInput = $('<input type="text" name="answer" id="answer" />');
+          textInput = $('<input type="text" placeholder="Enter your answer here" name="answer" id="answer" />');
           textInput.appendTo('#content');
           textInput.on('change keyup', function(e) {
             updateHistory(e.target.value);
