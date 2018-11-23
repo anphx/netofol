@@ -1141,7 +1141,8 @@
               }
               updateHistory(e.target.value);
               nextBtn.prop("disabled", false);
-              saveBtn.prop("disabled", false);
+              saveBtn.prop("disabled", globalIsFinalized == "true");
+              
             });
           }
 
@@ -1163,7 +1164,7 @@
           textInput.on('change keyup', function(e) {
             updateHistory(e.target.value);
             nextBtn.prop("disabled", false);
-            saveBtn.prop("disabled", false);
+            saveBtn.prop("disabled", globalIsFinalized == "true");
           });
 
           if (appState.history[ind]) textInput.val(appState.history[ind][0]);
@@ -1181,7 +1182,7 @@
               var values = $('input[type=checkbox]:checked').map(function() { return this.value; }).get();
               updateHistory(values);
               nextBtn.prop("disabled", false);
-              saveBtn.prop("disabled", false);
+              saveBtn.prop("disabled", globalIsFinalized == "true");
             });
           }
 
@@ -1201,7 +1202,8 @@
             radioBtn.find("input").on('change', function(e) {
               updateHistory(e.target.value);
               nextBtn.prop("disabled", false);
-              saveBtn.prop("disabled", false);
+              saveBtn.prop("disabled", globalIsFinalized == "true");
+              
             });
           }
 
@@ -1316,6 +1318,7 @@
         <h3 class="final-msg"><a href="' + newUrl + '">' + newUrl + '</a></h3>\
         <h3 class="final-msg">Give this link to other people in your company!</h3>\
         <a href="/reports" id="report-btn" class="report-final">View Reports</a>';
+
     }
 
     function notiEndOfSection() {
@@ -1324,7 +1327,9 @@
       myNode.innerHTML = '<h1 class="final-msg">You have finished all questions within this professional department! </h1>\
         <h2 class="final-msg">You need to save your response before continuing with other sections</h2>';
       saveBtn = $('<button class="save-btn">Save and Quit</button>').attr('id', 'save-btn').on('click', saveBtnClick);
-      $("body").append(saveBtn);
+      if (globalIsFinalized != "true") {
+        $("body").append(saveBtn);
+      }
     }
 
     function notiFinalizeSurvey(newUrl) {
