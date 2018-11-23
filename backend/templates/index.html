@@ -2,6 +2,7 @@
 <html id="html" class="initial-html">
 <head>
 	<link rel="icon" href="data:,">
+	 <meta charset="utf-8">
 	<style type="text/css">
 	/*final msg*/
 	h1.final-msg {
@@ -51,35 +52,33 @@ background-size: cover;
 overflow-y: hidden;
 }
 .initial-body{
-	color: white;
-	margin: 0 auto;
-	max-height: 430px;
-	max-width: 700px;
-	font-size: larger;
-	height: 430px;
-	text-align: center;
-	margin-top: 80px;
-	margin-bottom: 40px;
-	padding: 50px 90px 50px 90px;
-	text-align: center;
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-
-
+	background: rgba(0,0,0,0.2);
+    text-align: justify;
+    color: white;
+    margin: 0 auto;
+    line-height: 1.4;
+    max-width: 36em;
+    font-size: 19px;
+    height: 40vh;
+    margin-top: 90px;
+    margin-bottom: 40px;
+    padding: 70px 90px 40px 90px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
+
 #goto-survey-btn{
-	 margin-top:60px;
-	 color: #EFF0EF;
-		background: #FE6F00;
-		cursor: pointer;
-		border-radius: 50px;
-		width: 222px;
-		font-size: x-large;
-		font-family: monospace;
-		text-transform: uppercase;
-		font-size: larger;
-		border: none;
-		display: block;
-		margin: 50px auto;
+	 margin-top: 60px;
+    color: #EFF0EF;
+    background: #FE6F00;
+    cursor: pointer;
+    border-radius: 50px;
+    width: 222px;
+    font-size: inherit;
+    font-family: monospace;
+    text-transform: uppercase;
+    border: none;
+    display: block;
+    margin: 50px auto;
 
 }
 
@@ -206,45 +205,65 @@ overflow-y: hidden;
 	color: #4D4D4D;
 }
 
+
+#report-btn {
+	margin-top:45px;
+	color: #a74507;
+	cursor: pointer;
+	font-size: x-large;
+	border: none;
+	float: left;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	}
+
+	#report-btn:hover{
+		opacity: 0.8;
+    transform: scale(1.05);
+	}
+
 #start-btn{
-	margin-top:60px;
+	margin-top:30px;
 	color: #EFF0EF;
-		background: #FE6F00;
-		cursor: pointer;
-		border-radius: 50px;
-		width: 222px;
-		font-size: x-large;
-		font-family: monospace;
-		text-transform: uppercase;
-		font-weight: bold;
-		border: none;
+	background: #FE6F00;
+	cursor: pointer;
+	border-radius: 50px;
+	width: 222px;
+	font-size: x-large;
+	font-family: monospace;
+	text-transform: uppercase;
+	border: none;
+	float: right;
 }
 
 #goto-survey-btn:hover {
   opacity: 0.8;
   transform: scale(1.05);
+}
 
- } 
  #start-btn:hover{
   opacity: 0.8;
   transform: scale(1.05);
 }
 
-	.save-btn {
-		color: #EFF0EF;
-		background: #FE6F00;
-		cursor: pointer;
-		border-radius: 50px;
-		width: 222px;
-		font-size: x-large;
-		font-family: monospace;
-		text-transform: uppercase;
-		font-weight: bold;
-		height: 45px;
-		position: absolute;
-		left: 60px;
-		top: 435px;
-		 border: none;
+#start-btn[disabled] {
+	background: grey;
+}
+
+.save-btn {
+	color: #EFF0EF;
+	background: #FE6F00;
+	cursor: pointer;
+	border-radius: 50px;
+	width: 222px;
+	font-size: x-large;
+	font-family: monospace;
+	text-transform: uppercase;
+	height: 45px;
+	position: absolute;
+	left: 60px;
+	top: 435px;
+	 border: none;
+
 }
 .save-btn[disabled] {
 	background: grey;
@@ -380,13 +399,23 @@ overflow-y: hidden;
     white-space: -o-pre-wrap;
     word-wrap: break-word;
 	}
+
+	#instruction {
+		font-size: 14px;
+		text-align: justify;
+		color: grey;
+		padding: 10px 0 0 0;
+		margin-top: 20px;
+	}
+
+	
 	</style>
-	<meta charset="UTF-8">
 </head>
 
 <body id="body" class="initial-body">
-	With the support of ADEME, the Ministry of Ecology, Energy and the Sea and the Ministry of Economy and Finance, the association AGIT (Alliance for Green IT) and the eco-organizations of the recycling network of Waste Electrical and Electronic Equipment (WEEE) organize a survey to assess the deposits of computer and office equipment present in companies and more generally on the maturity of companies in France in the use of eco-responsible digital services.
-	<button id="goto-survey-btn">Go to survey</button>
+	With the support of ADEME, the Ministry of Ecology, Energy and the Sea and the Ministry of Economy and Finance, the association AGIT (Alliance for Green IT) and the eco-organizations of the recycling network of Waste Electrical and Electronic Equipment (WEEE) organize a survey to assess the deposits of computer and office equipment present in companies and more generally on the maturity of companies in France in the use of eco-responsible digital services. 
+	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Developed by NETOFOL team for D4G 2018.
+	<button id="goto-survey-btn">Explore</button>
 
 	<script type="text/javascript">
 		/*! jQuery v3.3.1 | (c) JS Foundation and other contributors | jquery.org/license */
@@ -436,6 +465,7 @@ overflow-y: hidden;
     GIT: "Green IT (x6)",
     ENERGY: "Energy consumption (x4)",
     PRINTING: "Printing and paper (x15)",
+
   };
 
   var appState = {
@@ -1350,12 +1380,17 @@ overflow-y: hidden;
           startBtn.prop("disabled", !$("input:checked").val());
         });
       }
-
+      surveyInstructions = $('<div id="instruction">The duration of the questionnaire is estimated at 15 minutes if you are able to answer questions directly. You can return at any time on the questionnaire, answer in several times, your previous answers are recorded. In case of modification, only the last answer will be taken into account. You can submit this questionnaire to several people in your organization. All you have to do is simply share the link to the questionnaire. Thank you for participating in this survey. Your answer is invaluable to us to constitute the most representative sample of the companies in France. </div>');
+      surveyInstructions.appendTo('body');
+      linktoReportBtn = $('<a href="#" id="report-btn">View Reports</a>');
+      linktoReportBtn.appendTo('body');
       startBtn.prop("disabled", true);
       startBtn.appendTo('body');
     }
 
     function startSurvey(e) {
+    	surveyInstructions.remove();
+    	linktoReportBtn.remove();
       var selected = $("input:checked").val();
       if (!selected) return;
 
@@ -1489,7 +1524,8 @@ overflow-y: hidden;
             radioBtn.appendTo('#content');
             radioBtn.on('change', function(e) {
               if (mixedQuestionMap[ind].includes(parseInt(e.target.id)) && e.target.checked) {
-                $('<input type="text" name="subAns" id="subAns" />').insertAfter($(e.target).parent());
+              	$("#subAns").remove();
+                $('<input type="text" placeholder="Enter your answer here" name="subAns" id="subAns" />').insertAfter($(e.target).parent());
                 $("#subAns").on('change', function(e) {
                   updateHistory(e.target.value);
                 });
@@ -1515,7 +1551,7 @@ overflow-y: hidden;
           break;
 
         case QUESTION_TYPE.TEXT:
-          textInput = $('<input type="text" name="answer" id="answer" />');
+          textInput = $('<input type="text" placeholder="Enter your answer here" name="answer" id="answer" />');
           textInput.appendTo('#content');
           textInput.on('change keyup', function(e) {
             updateHistory(e.target.value);
