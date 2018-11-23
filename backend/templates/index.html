@@ -370,12 +370,12 @@
   // ========= To define global variables =====================
   var globalHistory = {};
   var globalSession = "0";
-  var finalize = "".trim(); 
+  var globalIsFinalized = "";
 
   {% if history %}
   var globalHistory = {{ history | safe }};
   var globalSession = " {{ session }}".trim();
-  var finalize = "{{finalize}}".trim(); 
+  var globalIsFinalized = "{{finalize}}".trim(); 
   {% endif %}
   const API_BASE = "http://51.75.249.213:2345";
 
@@ -410,7 +410,6 @@
     GIT: "Green IT",
     ENERGY: "Energy consumption",
     PRINTING: "Printing and paper",
-    // "IT Services", "Management", "Facility Management"
   };
 
   var appState = {
@@ -1308,7 +1307,10 @@
       contentDiv = $('<div id="content"></div>');
       contentDiv.appendTo('body');
 
-      $("#content").html("Choose your department");
+      $("#content").html("Choose a department to start");
+      if (globalIsFinalized) {
+        $("#content").append("<br/>****THIS SURVEY HAS BEEN FINALIZED! NO CHANGE ALLOWED! ****");
+      }
       gotoSurveyBtn.remove();
       // for (i = 0; i < DEPARTMENTS.length; i++) {
       var keys = Object.keys(DEPARTMENTS);
@@ -1334,7 +1336,7 @@
 
       appState.selectedDepartment = selected;
 
-      var startAt = 87; //whatsNext(appState.selectedDepartment, appState.currQst, "");
+      var startAt = whatsNext(appState.selectedDepartment, appState.currQst, "");
       if (startAt > 0) {
         appState.stepTracking.push(startAt);
         doRenderQuestion(startAt);
@@ -1348,6 +1350,7 @@
     }
 
     function saveBtnClick(e) {
+      if (globalIsFinalized) return;
       $.ajax({
           method: "POST",
           contentType: "application/json",
@@ -1433,7 +1436,14 @@
       if (ind == Object.keys(QUESTION_MAP).length) {
         nextBtn.remove();
         saveBtn.remove();
+        finishBtn = $('<button class="save-btn">Finish and Send</button>').attr('id', 'finish-btn').on('click', finishBtnClick);
         $("#content").append(finishBtn);
+      } else {
+        nextBtn = $("<button>></button>").attr('id', 'next-btn').on('click', nextBtnClick);
+        nextBtn.appendTo($("#content"));
+        saveBtn = $('<button class="save-btn">Save and Quit</button>').attr('id', 'save-btn').on('click', saveBtnClick);
+        saveBtn.appendTo($("#content"));
+        finishBtn.remove();
       }
 
       switch (question.qType) {
@@ -1524,6 +1534,10 @@
           if (appState.history[ind]) $('input[name=choice][value="' + appState.history[ind][0] + '"]').prop("checked", true);
 
           break;
+      }
+      if (globalIsFinalized) {
+        saveBtn.prop("disabled", true);
+        finishBtn.prop("disabled", true);
       }
 
     }
