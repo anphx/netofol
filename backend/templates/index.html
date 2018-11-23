@@ -361,9 +361,14 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script type="text/javascript">
   // ========= To define global variables =====================
+    var globalHistory ={};
+  var globalSession = "0";
+  var finalize = "".trim(); 
+
   {% if history %}
   var globalHistory = {{ history | safe }};
-  var globalSession = " {{ session }}"; 
+  var globalSession = " {{ session }}".trim();
+  var finalize = "{{finalize}}".trim(); 
   {% endif %}
   const API_BASE = "http://51.75.249.213:2345";
 
@@ -403,9 +408,9 @@
 
   var appState = {
     currQst: 0,
-    history: {}, // TODO: load when an existing survey is load
+    history: globalHistory, // TODO: load when an existing survey is load
     stepTracking: [],
-    sessionId: "0",
+    sessionId: globalSession || "0",
     selectedDepartment: ""
   };
 
