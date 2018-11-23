@@ -19,7 +19,9 @@ app.config["MONGO_URI"] = "mongodb://localhost:27017/d4g"
 mongo = PyMongo(app)
 
 
-
+@app.route("/reports")
+def reports():
+    return render_template('reports.html',data=data)
 
 @app.route("/")
 def main():
@@ -28,7 +30,7 @@ def main():
 
 @app.route("/s/<session_id>", methods=['GET'])
 def load_with_session(session_id):
-    return render_template('index.html', session = session_id, history = list(load_history(session_id))[0]["history"])
+    return render_template('index.html', session = session_id, history = list(load_history(session_id))[0]["history"],finalize=list(load_history(session_id))[0]["locked"])
 
 
 @app.route('/save', methods=['POST'])
