@@ -1519,7 +1519,8 @@ overflow-y: hidden;
             radioBtn.appendTo('#content');
             radioBtn.on('change', function(e) {
               if (mixedQuestionMap[ind].includes(parseInt(e.target.id)) && e.target.checked) {
-                $('<input type="text" name="subAns" id="subAns" />').insertAfter($(e.target).parent());
+              	$("#subAns").remove();
+                $('<input type="text" placeholder="Enter your answer here" name="subAns" id="subAns" />').insertAfter($(e.target).parent());
                 $("#subAns").on('change', function(e) {
                   updateHistory(e.target.value);
                 });
